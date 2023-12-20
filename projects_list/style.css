@@ -1,0 +1,70 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   
+  }
+
+.title{
+  font-size: 22px;
+  text-align: center;
+}
+
+@media screen and (max-width:767px) {
+  .title{
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width:1024px) {
+  .title{
+    font-size: 22px;
+  }
+}
+
+td {
+  border: 1px solid #cfcfcf;
+  padding: 10px 20px;
+  
+  
+  
+}
+
+a{
+  text-decoration: none;
+}
+
+table thead th{
+  background-color: #eee !important;
+    color: #000000d9;
+    font-weight: 500;
+    text-align: left;
+    padding: 10px 20px;
+    overflow-wrap: break-word;
+    border: 1px solid #cfcfcf;
+}
+
+table {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  border-collapse: collapse;
+  padding-bottom: 16px;
+  background: #fff;
+  width: 90% !important;
+}
+
+table a{
+  font-style: italic;
+  color: #5e5a5a;
+}
+
+tbody td:first-child, tbody td:last-child{
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #eee;
+}
+
+tr:nth-child(odd) {
+  background-color: #fff;
+}

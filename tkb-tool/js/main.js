@@ -356,7 +356,10 @@ $(document).ready(async () => {
   list_button.append(exportJSON);
 
   const importCode = document.createElement('div');
-  importCode.innerHTML = `<div id="importCode">Nhập mã</div>`;
+  importCode.id = "importCode"
+  importCode.innerHTML = `Nhập mã`;
+  importCode.className = "btn"
+  importCode.setAttribute("disabled","true")
   list_button.append(importCode);
 
 
@@ -792,9 +795,9 @@ document.addEventListener("keydown", e => {
     e.preventDefault();
   }
 });
-// document.addEventListener("contextmenu", e => {
-//   e.preventDefault();
-// });
+document.addEventListener("contextmenu", e => {
+  e.preventDefault();
+});
 window.addEventListener("load",function(){
   try {
     !function t(n) {
@@ -850,9 +853,9 @@ $('#exportJSON').click(() => {
   a.click();
 });
 
-$('#importCode').click(() => {
+importCode.click = function(){
   showAddCodeDialog();
-});
+}
 
 drawTimetable(list_tkb);
 
