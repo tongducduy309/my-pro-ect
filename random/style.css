@@ -1,0 +1,242 @@
+* {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 500;
+  }
+
+::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #e5e5e5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #242424;
+}
+
+.title{
+    width: 100%;
+    
+}
+.main{
+    display: flex;
+    justify-content: space-around;
+    height: 100vh;
+}
+.wheel{
+    position: relative;
+    flex: 7;
+    height: 100%;
+}
+.spinner{
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.options{
+    flex: 3;
+    padding: 10px;
+    display: flex;
+    justify-content: start;
+    
+    flex-direction: column;
+    height: 100%;
+}
+
+.options .result{
+    margin-top: 10px;
+    padding-bottom: 10px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.options .result .main-result{
+    border: 2px solid #000;
+    height: 80%;
+    margin-top: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+#input{
+    padding: 10px;
+    resize: none;
+}
+
+#input::placeholder { 
+    font-style: italic;
+    font-weight: 400;
+}
+
+#target {
+    position: absolute;
+    top: 292.5px;
+    left: 540px;
+    width: 30px;
+    height: 30px;
+    background-color: #bbbbbb;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);/* Top, right, bottom, left */
+    transform: rotate(-90deg);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+#bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+
+#dialog{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    box-shadow: 0px 3px 25px 0px rgba(31,38,67,0.1);
+    border-radius: 5px;
+    min-width: 400px;
+    min-height: 100px;
+    overflow: hidden;
+    
+    
+  }
+  
+#dialog .close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    background-color: transparent;
+    cursor: pointer;
+    
+
+}
+
+#dialog .container{
+    position: relative;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+}
+
+#dialog .groupBTN{
+    display: flex;
+    margin: 20px 0;
+    float: right;
+}
+  
+#dialog .btn{
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px !important;
+    font-weight: 500;
+    padding: 10px 15px;
+    text-align: center;
+    user-select: none;
+    
+}
+
+#dialog .remove{
+    background-color: #006eff;
+    color: #ffffff;
+}
+
+#dialog .header, #dialog .content{
+    height: max-content;
+    padding: 10px;
+    
+}
+
+#dialog .header{
+    margin-bottom: 10px;
+}
+
+#dialog .header span{
+    font-weight: 900;
+    width: 100%;
+}
+
+.btns{
+    margin-bottom: 10px;
+    
+    display: flex;
+    align-items: center;
+}
+
+.btns .btn{
+    background-color: #cccccc !important;
+    color: #000 !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.btns .btn[disabled=true]{
+    background-color: #949494 !important;
+    cursor: not-allowed ;
+}
+
+.btns .btn:hover{
+    background-color: #949494 !important;
+}
+
+#auto_delete,
+label[for="auto_delete"]{
+    margin-right: 10px;
+}
+
+.count{
+    border: 1px solid #5f5f5f5d;
+    border-radius: 5px;
+    padding: 5px 10px;
+    width: 60px;
+}
+
+.count:disabled{
+    cursor: not-allowed;
+}
+
+.main-result div{
+    padding: 5px;
+    height: max-content;
+    width: 100%;
+}
+
+.main-result div:nth-child(even) {
+    background-color: #eee;
+}
+  
+.main-result div:nth-child(odd) {
+    background-color: #fff;
+}
+
+.result .header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.result .header .btn{
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px !important;
+    font-weight: 500;
+    padding: 10px 15px;
+    text-align: center;
+    user-select: none;
+    background-color: #006eff;
+    color: #ffffff;
+}
+
+
+
+
+

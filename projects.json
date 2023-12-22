@@ -3,5 +3,10 @@
         "name":"Tạo thời khóa biểu",
         "link":"../tkb.html",
         "type":"TOOLS"
+    },
+    {
+        "name":"Random - Ngẫu nhiên",
+        "link":"../random.html",
+        "type":"TOOLS"
     }
 ]
