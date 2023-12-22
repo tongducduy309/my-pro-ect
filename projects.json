@@ -6,7 +6,7 @@
     },
     {
         "name":"Random - Ngẫu nhiên",
-        "link":"./random/random.html",
+        "link":"../random.html",
         "type":"TOOLS"
     }
 ]
