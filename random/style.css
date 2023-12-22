@@ -14,9 +14,10 @@
     background-color: #242424;
 }
 .main{
+    position: relative;
     display: flex;
     justify-content: space-around;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .wheel{
@@ -249,6 +250,9 @@ label[for="auto_delete"]{
     }
     .spinner{
         position: relative;
+        top: 0;
+        left: 0;
+        transform: translate(0,0);
         overflow: hidden !important;
     }
     .options{
