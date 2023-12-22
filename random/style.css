@@ -13,16 +13,12 @@
 ::-webkit-scrollbar-thumb {
     background-color: #242424;
 }
-
-.title{
-    width: 100%;
-    
-}
 .main{
     display: flex;
     justify-content: space-around;
     height: 100vh;
 }
+
 .wheel{
     position: relative;
     flex: 7;
@@ -55,7 +51,8 @@
 
 .options .result .main-result{
     border: 2px solid #000;
-    height: 80%;
+    min-height: 200px;
+    max-height: 100%;
     margin-top: 5px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -73,14 +70,10 @@
 
 #target {
     position: absolute;
-    top: 292.5px;
-    left: 540px;
     width: 30px;
     height: 30px;
     background-color: #bbbbbb;
-    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);/* Top, right, bottom, left */
-    transform: rotate(-90deg);
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    clip-path: polygon(0% 50%, 100% 0%, 100% 100%);
 }
 
 #bg {
@@ -235,6 +228,47 @@ label[for="auto_delete"]{
     background-color: #006eff;
     color: #ffffff;
 }
+
+@media screen and (max-width:767px) {
+    .main{
+        display: flex;
+        flex-direction: column;
+    }
+    .main .wheel{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: max-content;
+    }
+    #cmy-canvas{
+        margin-top: 20px;
+    }
+    #target{
+        width: 20px;
+        height: 20px;
+    }
+    .spinner{
+        position: relative;
+        overflow: hidden !important;
+    }
+    .options{
+        font-size: 12px;
+    }
+
+    .options .btn{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    
+  }
+  
+  @media screen and (min-width:1024px) {
+    
+    
+  }
+  
 
 
 

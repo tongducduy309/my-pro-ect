@@ -15,6 +15,11 @@ function addText(ctx,content,color,rotate,r){
   ctx.rotate(-r)
 }
 
+const colors = ["#3369e8","#d50f25","#eeb211","#009925","#26a69a"]
+
+
+
+
 const canvas = document.getElementById('my-canvas');
 
 let side = 0;
@@ -54,12 +59,12 @@ function draw(x,y,radius, users){
   side=l*180/Math.PI;
   const r = -l/2
 
-  ctx.translate(300,300);
+  ctx.translate(x,y);
   
   for (let i=0;i<users.length;i++){
     let c = (i%4==0&&i==users.length-1)?4:i%4;
     drawPercentInCircle(ctx,radius,colors[c],0,Math.PI*2-l)
-    addText(ctx,users[i],"#ffffff",220,r)
+    addText(ctx,users[i],"#ffffff",radius-30,r)
     ctx.rotate(-l)
     
   }
@@ -67,7 +72,7 @@ function draw(x,y,radius, users){
   //Vẽ vòng tròn trắng ở giữa
   
   ctx.beginPath();
-  ctx.arc(0, 0, 50, 0, 2 * Math.PI);
+  ctx.arc(0, 0, radius_, 0, 2 * Math.PI);
   ctx.fillStyle = '#ffffff';
   ctx.fill();
 
@@ -75,10 +80,7 @@ function draw(x,y,radius, users){
 
 }
 
-const colors = ["#3369e8","#d50f25","#eeb211","#009925","#26a69a"]
-let users = [];
 
-draw(300,300,250,users);
 
 function random(min=0,max=1){
   return Math.floor((Math.random() * (max-min+1)) + min);
@@ -101,6 +103,7 @@ function turn_wheel(){
     if (time<6000) speed = 12
     c=parseInt((10000-time)/1000)
     const loop = setInterval(()=>{
+      if (i>=360)i-=360;
       canvas.style.transform=`rotate(${i}deg)`;
       i+=speed
       j+=speed
@@ -124,6 +127,7 @@ function turn_wheel(){
   }
 }
 canvas.addEventListener("click",()=>{
+  if (count.value>0)  count.value--;
   turn_wheel()
 })
 
@@ -144,7 +148,7 @@ function result(){
       users.splice(index,1)
       input.value = users.join("\n");
       
-      draw(300,300,250,users);
+      draw(cx,cy,radius,users);
     }
     console.log(index);
   }
@@ -170,7 +174,7 @@ function result(){
         users.splice(index,1)
         input.value = users.join("\n");
         
-        draw(300,300,250,users);
+        draw(cx,cy,radius,users);
       }
       if (count.value==0) count.value=""
     }
@@ -237,7 +241,7 @@ function showDialog(value={
     users=input.value.split('\n');
     users.splice(value.index,1)
     input.value = users.join("\n");
-    draw(300,300,250,users);
+    draw(cx,cy,radius,users);
   });
 
   groupBTN.appendChild(button)
@@ -264,7 +268,7 @@ const rs = document.querySelector(".result .main-result")
 input.addEventListener("input",()=>{
   if (!running){
     users = input.value.split('\n');
-    draw(300,300,250,users);
+    draw(cx,cy,radius,users);
   }
   
 })
@@ -276,7 +280,7 @@ derange.addEventListener("click",()=>{
     users=input.value.split('\n');
     users.sort(() => Math.random() - 0.5);
     input.value = users.join("\n");
-    draw(300,300,250,users);
+    draw(cx,cy,radius,users);
   }
 })
 
@@ -289,21 +293,57 @@ sort.addEventListener("click",()=>{
     if (desc) users.reverse();
     desc=!desc
     input.value = users.join("\n");
-    draw(300,300,250,users);
+    draw(cx,cy,radius,users);
   }
 })
 
-
+function checkCount(){
+  if (auto_delete.checked&&count.value.trim().length>0&&count.value>users.length-1)count.value=users.length-1
+  if (count.value.trim().length>0&&count.value<1) count.value=1
+  if (count.value==0) count.value=""
+}
 
 
 count.addEventListener("blur",()=>{
- // console.log(count.value);
-  if (count.value.trim().length>0&&count.value>users.length-1)count.value=users.length-1
-  if (count.value.trim().length>0&&count.value<1) count.value=1
-  if (count.value>0)auto_delete.checked=true
-  if (count.value==0) count.value=""
+  checkCount()
 })
 
 document.querySelector(".result .header .btn").addEventListener("click",()=>{
   document.querySelector(".result .main-result").innerHTML = ""
 })
+
+auto_delete.addEventListener("click",()=>{
+  checkCount()
+})
+
+
+
+
+let users = [];
+
+
+
+const userAgent = navigator.userAgent;
+let radius=250,radius_=50,cx=300,cy=300;
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+  //console.log("You are using a mobile device");
+  radius=(screen.width-50)/2;
+  canvas.height=screen.width
+  canvas.width=screen.width
+  cx=screen.width/2
+  cy=screen.width/2
+  radius_=25
+} else {
+  //console.log("You are using a desktop device");
+  radius=250
+  radius_=50
+}
+
+const target = document.getElementById("target")
+
+target.style.left = (radius*2+(cx-radius)-target.getBoundingClientRect().width/2)+"px"
+target.style.top = cy-target.getBoundingClientRect().width/2+"px"
+console.log(target.getBoundingClientRect().width);
+
+draw(cx,cy,radius,users);

@@ -16,6 +16,7 @@ background-color: #242424;
 a{
     text-decoration: none;
     list-style: none;
+    color: #242424;
 }
 
 .container{
@@ -76,6 +77,8 @@ a{
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    width: max-content;
+    
 }
 
 
@@ -95,12 +98,28 @@ a{
     .title{
         width: 40%;
     }
+    .projects .button img{
+        width: 20px;
+        height: 20px;
+    }
+    span,a{
+        font-size: 12px;
+    }
+    .container{
+        min-height: 500px;
+    }
 }
 
 @media screen and (min-width:1024px) {
     .title{
         width: 20%;
     }
+    .projects{
+        position: absolute;
+        right: 20px;
+        bottom: 10px;
+    }
+    
 }
 
   
