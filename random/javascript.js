@@ -190,6 +190,10 @@ function showDialog(value={
   const dialog = document.createElement("div");
   dialog.id='dialog'
 
+  if(device=="desktop")
+    dialog.style.width = "400px"
+  else dialog.style.width = screen.width*0.9+"px"
+
   const container = document.createElement("div");
   container.id='container'
   
@@ -324,7 +328,7 @@ let users = [];
 
 
 const userAgent = navigator.userAgent;
-let radius=250,radius_=50,cx=300,cy=300;
+let radius=250,radius_=50,cx=300,cy=300,device;
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
   //console.log("You are using a mobile device");
@@ -334,10 +338,15 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAg
   cx=screen.width/2
   cy=screen.width/2
   radius_=25
+  document.querySelector(".main").style.height = document.querySelector(".main .title")+screen.width+"px"
+  device="mobile"
 } else {
   //console.log("You are using a desktop device");
   radius=250
   radius_=50
+  
+  document.querySelector(".main .content").style.height = window.innerHeight-document.querySelector(".main .title").getBoundingClientRect().height+"px"
+  device="desktop"
 }
 
 const target = document.getElementById("target")
