@@ -234,6 +234,7 @@ label[for="auto_delete"]{
     color: #ffffff;
 }
 
+/* Màn hình Mobile */
 @media screen and (max-width:767px) {
     .main{
         display: flex;
@@ -267,10 +268,14 @@ label[for="auto_delete"]{
         flex-direction: column;
         align-items: center;
     }
+    .main .title{
+        display: none;
+    }
 
     
   }
   
+  /* Màn hình desktop */
   @media screen and (min-width:1024px) {
     body{
         overflow: hidden;
