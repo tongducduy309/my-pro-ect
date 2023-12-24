@@ -267,6 +267,7 @@ scrollableElement.addEventListener('mouseup', () => {
 scrollableElement.addEventListener('mousemove', (event) => {
     
   if (isDragging) {
+    console.log(123);
     const deltaX = event.clientX - startX;
     const deltaY = event.clientY - startY;
     document.documentElement.scrollLeft += -deltaX;
@@ -275,6 +276,30 @@ scrollableElement.addEventListener('mousemove', (event) => {
     startY = event.clientY;
   }
 });
+
+scrollableElement.addEventListener('touchstart', (event) => {
+    isDragging = true;
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+  });
+  
+  scrollableElement.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+  
+  scrollableElement.addEventListener('touchmove', (event) => {
+      
+    if (isDragging) {
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+        document.documentElement.scrollLeft += -deltaX;
+        document.documentElement.scrollTop += -deltaY;
+        startX = touch.clientX;
+        startY = touch.clientY;
+    }
+  });
 
 
 
