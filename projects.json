@@ -8,5 +8,10 @@
         "name":"Random - Ngẫu nhiên",
         "link":"../random.html",
         "type":"TOOLS"
+    },
+    {
+        "name":"Caro",
+        "link":"../caro.html",
+        "type":"TOOLS"
     }
 ]
