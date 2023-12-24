@@ -33,15 +33,18 @@ function createBoard(){
             tr.appendChild(td)
             
             td.onclick = function(){
-                console.log(turn,mark);
-                if (turn==mark)
-                if(td.className.indexOf("tick_x")==-1&&td.className.indexOf("tick_o")==-1){
-                    td.classList.add(`tick_${turn}`)
-                    let value = {}
-                    value[`turn_${t+1}`]=`${cls}--${turn}`
-                    fs.collection("caro").update(nameRoom,value)
-                    //turn = (turn=="x")?"o":"x"
+                if (nameRoom!=null)
+                {
+                    if (turn==mark)
+                    if(td.className.indexOf("tick_x")==-1&&td.className.indexOf("tick_o")==-1){
+                        td.classList.add(`tick_${turn}`)
+                        let value = {}
+                        value[`turn_${t+1}`]=`${cls}--${turn}`
+                        fs.collection("caro").update(nameRoom,value)
+                        //turn = (turn=="x")?"o":"x"
+                    }
                 }
+                else showDialog()
                 
             }
         }
@@ -88,7 +91,7 @@ async function joinRoom(nR){
             let v ={}
             v[ip]="o"
             value["Turn"]={...room["Turn"],...v}
-            fs.collection("caro").update(nameRoom,value)
+            await fs.collection("caro").update(nameRoom,value)
             mark = "o"
         }
         else {
@@ -97,7 +100,9 @@ async function joinRoom(nR){
                 setTurn(room[`turn_${i}`])
             }
             mark = room["Turn"][ip]
+            
         }
+        createAlert("Tham gia phòng thành công")
     }
     else    
         {
@@ -107,9 +112,9 @@ async function joinRoom(nR){
             if (!nR||nR.length==0)
                 nameRoom = await fs.collection("caro").add(value);
             else
-                fs.collection("caro").add(value,nameRoom)
+                await fs.collection("caro").add(value,nameRoom)
             mark = "x"
-            
+            createAlert("Tạo phòng thành công")
         }
     
 
@@ -119,6 +124,8 @@ async function joinRoom(nR){
     copyRoom.addEventListener("click",()=>{
         navigator.clipboard.writeText(nameRoom);
     })
+
+    
     
     
 }
@@ -129,6 +136,30 @@ function getTurn(){
         setTurn(turn_[`turn_${t}`])
         turn =  (t%2==0)?"o":"x"
     },nameRoom,false)
+}
+
+function createAlert(content){
+    let container = document.getElementById("alert_container");
+    let alert = document.createElement("div");
+    alert.className="alert_ success";
+    let cont = document.createElement("div");
+    cont.className="content";
+    cont.innerHTML = `<i class="fa-regular fa-circle-check"></i><span>`+content+`</span>`;
+    let close = document.createElement("div");
+    close.className="close";
+    close.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+    close.onclick = () => {
+        container.removeChild(alert);
+    }
+    alert.appendChild(cont);
+    alert.appendChild(close);
+
+    
+    container.appendChild(alert);
+    setTimeout(()=>{
+        container.removeChild(alert);
+        
+    },4000)
 }
 
 function showDialog(value={
@@ -176,9 +207,10 @@ function showDialog(value={
     const enter = document.createElement("div");
     enter.className="enter btn"
     enter.innerHTML='NHẬP'
-    enter.addEventListener("click", () => {
+    enter.addEventListener("click", async () => {
         document.body.removeChild(bg);
-        joinRoom(room.value);
+        await joinRoom(room.value);
+        
 
         
     });
@@ -211,10 +243,38 @@ document.querySelector(".joinRoom").addEventListener("click",()=>{
 
 document.querySelector(".restart").addEventListener("click",async ()=>{
     await fs.collection("caro").deleteDoc(nameRoom)
-    joinRoom(nameRoom)
+    await joinRoom(nameRoom)
+    createAlert("Bắt đầu ván mới!!!")
 })
 
 showDialog();
+
+const scrollableElement = document.body;
+
+let isDragging = false;
+let startX,startY = 0;
+
+scrollableElement.addEventListener('mousedown', (event) => {
+  isDragging = true;
+  startX = event.clientX;
+  startY = event.clientY;
+});
+
+scrollableElement.addEventListener('mouseup', () => {
+  isDragging = false;
+});
+
+scrollableElement.addEventListener('mousemove', (event) => {
+    
+  if (isDragging) {
+    const deltaX = event.clientX - startX;
+    const deltaY = event.clientY - startY;
+    document.documentElement.scrollLeft += -deltaX;
+    document.documentElement.scrollTop += -deltaY;
+    startX = event.clientX;
+    startY = event.clientY;
+  }
+});
 
 
 

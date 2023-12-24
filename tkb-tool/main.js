@@ -9,11 +9,8 @@ function changeColor_2(color){
   document.getElementById("color_2").style.backgroundColor=color
   document.getElementById("color_2").setAttribute("default",color)
 }
-
-console.log(123);
 $(document).ready(async () => {
   
-  console.log(123);
   let list_tkb=[]
  
 
@@ -541,7 +538,6 @@ $(document).ready(async () => {
       "color_2":course.color_2
     }
 
-    console.log(group);
     list_tkb.push({...group})
     drawTimetable(list_tkb)
   }
