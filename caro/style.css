@@ -239,6 +239,10 @@ table .tick_o:after {
     background-color: #10b981;
 }
 
+#alert_container .error{
+    background-color: #c92a2a;
+}
+
 @keyframes appear {
     from{
         transform: translateY(-50px);
@@ -262,6 +266,83 @@ table .tick_o:after {
     }
 }
 
+#information{
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 180px;
+    height: 110px;
+    background-color: #006eff;
+    border-top-right-radius: 10px;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#information #turnName{
+    font-weight: 700;
+    color: #fff;
+    margin-top: 10px;
+}
+
+#information .bg-time {
+    position: relative;
+    width: 80px;
+    height: 40px;
+    border-radius: 100px 100px 0 0; 
+    z-index: 2;
+    overflow: hidden;
+}
+
+#information .bg-time::after {
+    position: absolute;
+    content: "";
+    width: 60px;
+    height: 30px;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 100px 100px 0 0; /* Top corners rounded to full circle */
+    background-color: #006eff;
+    z-index: 2;
+}
+
+#information .time {
+    position: relative;
+    width: 80px;
+    height: 40px;
+    border-radius: 100px 100px 0 0; 
+    background-color: #10b981;
+    z-index: 1;
+}
+
+
+#information .past-time {
+    position: relative;
+    bottom: -100%;
+    width: 80px;
+    height: 40px;
+    border-radius: 0 0 100px 100px; 
+    background-color: #24559683;
+    z-index: 1;
+    
+}
+
+#information .time-down {
+    transform-origin: center;
+}
+
+#information .time-view{
+    font-weight: 700;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    z-index: 3;
+    left: 50%;
+    transform: translateX(-50%);
+}
 
 /* Màn hình Mobile */
 @media screen and (max-width:767px) {

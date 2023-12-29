@@ -1,4 +1,7 @@
 import { Firestore } from "/firebase/connect-firebase.js";
+var cel = new celebration();
+
+// cel.create();
 const w=100;
 const h =100;
 
@@ -6,7 +9,7 @@ const board = document.getElementById("board")
 const fs = new Firestore();
 let nameRoom=null
 
-let turn, t = 0, mark;
+let turn, t = 0, mark, timeInterval, cells = {},running=true;
 
 
 let ip = await getIPAddress();
@@ -33,15 +36,15 @@ function createBoard(){
             tr.appendChild(td)
             
             td.onclick = function(){
+                console.log(123);
                 if (nameRoom!=null)
                 {
                     if (turn==mark)
                     if(td.className.indexOf("tick_x")==-1&&td.className.indexOf("tick_o")==-1){
                         td.classList.add(`tick_${turn}`)
                         let value = {}
-                        value[`turn_${t+1}`]=`${cls}--${turn}`
+                        value[`turn_${t}`]=`${cls}--${turn}`
                         fs.collection("caro").update(nameRoom,value)
-                        //turn = (turn=="x")?"o":"x"
                     }
                 }
                 else showDialog()
@@ -58,7 +61,9 @@ createBoard()
 
 function setTurn(cell){
     if (cell){
+        
         const [positon,turn]=cell.split("--")
+        cells[positon]=turn;
         const td = document.querySelector(`.${positon}`)
         const cls = `tick_${turn}`;
         if(td.className.indexOf(cls)==-1){
@@ -75,7 +80,7 @@ async function joinRoom(nR){
     //fs.collection("caro").add({number_of_rooms:n},"Main")
     nameRoom = `${nR}`;
     let room = await fs.collection("caro").get(nameRoom)
-    
+    let join=false;
     let value = {}
     if (room!=null)
     {
@@ -86,23 +91,33 @@ async function joinRoom(nR){
         //   };
         // console.log(browser.name);
         // if (browser.name=="Firefox")
-        //     ip="123"
-        if (!room["Turn"][ip]){
+        //     ip="12345"
+        if (Object.keys(room["Turn"]).length<2&&!room["Turn"][ip]){
+            
+
+
             let v ={}
             v[ip]="o"
             value["Turn"]={...room["Turn"],...v}
             await fs.collection("caro").update(nameRoom,value)
             mark = "o"
+            createAlert("Tham gia phòng thành công")
+            join=true;
         }
         else {
-            let n=(Object.keys(room)).length-1;
-            for (let i=1;i<=n;i++){
-                setTurn(room[`turn_${i}`])
+            if (room["Turn"][ip])
+            {
+                let n=(Object.keys(room)).length-1;
+                for (let i=1;i<=n;i++){
+                    setTurn(room[`turn_${i}`])
+                }
+                mark = room["Turn"][ip]
+                createAlert("Tham gia phòng thành công")
+                join=true;
             }
-            mark = room["Turn"][ip]
             
         }
-        createAlert("Tham gia phòng thành công")
+        
     }
     else    
         {
@@ -113,17 +128,37 @@ async function joinRoom(nR){
                 nameRoom = await fs.collection("caro").add(value);
             else
                 await fs.collection("caro").add(value,nameRoom)
+            value = {}
+            value[nameRoom] = [ip]
+            await fs.collection("caro").add(value,"Main")
             mark = "x"
-            createAlert("Tạo phòng thành công")
+            join=true;
+            //createAlert("Tạo phòng thành công")
         }
     
+    if (join){
+        getTurn();
+        const copyRoom = document.querySelector(".copyRoom");
+        document.getElementById("nameRoom").innerHTML = nameRoom
+        copyRoom.addEventListener("click",()=>{
+            navigator.clipboard.writeText(nameRoom);
+        })
+        
+    }
+    else {
+        nameRoom = null;
+        createAlert("Bạn không được phép vào phòng này","error")
+    }
 
-    getTurn();
-    const copyRoom = document.querySelector(".copyRoom");
-    document.getElementById("nameRoom").innerHTML = nameRoom
-    copyRoom.addEventListener("click",()=>{
-        navigator.clipboard.writeText(nameRoom);
-    })
+    // fs.collection("caro").subscribe((res)=>{
+    //     if (res){
+    //         if (!res[nameRoom].includes(ip)){
+    //             value = {}
+    //             value[nameRoom]=[...res[nameRoom],ip]
+    //             fs.collection("caro").update("Main",value)
+    //         }
+    //     }
+    // },"Main",false)
 
     
     
@@ -132,19 +167,57 @@ async function joinRoom(nR){
 
 function getTurn(){
     fs.collection("caro").subscribe((turn_)=>{
-        t=Object.keys(turn_).length;
-        setTurn(turn_[`turn_${t}`])
-        turn =  (t%2==0)?"o":"x"
+        if(turn_){
+            t=Object.keys(turn_).length;
+            setTurn(turn_[`turn_${t-1}`])
+            if (t>1)
+                if (checkWinner(turn_[`turn_${t-1}`])) {
+                    cel.start(restart);
+                    running=false;
+                }
+            turn =  (t%2==0)?"o":"x"
+            if (turn=="x")
+                document.getElementById("mark").innerHTML = "&#10060"
+            else
+                document.getElementById("mark").innerHTML = "&#128903"
+            
+        }
+        else turn = "x"
+        if (t>1&&turn==mark){
+            document.getElementById("turnName").innerHTML = "Bạn"
+            startTime(45)
+        }else {
+            if (t==1&&turn==mark){
+                document.getElementById("turnName").innerHTML = "Bạn"
+                document.querySelector("#information .bg-time").style.display = "none"
+            }
+            else{
+                document.getElementById("turnName").innerHTML = "TỚI LƯỢT </br> ĐỐI THỦ"
+                document.querySelector("#information .bg-time").style.display = "none"
+            }
+            
+            
+        }
     },nameRoom,false)
 }
 
-function createAlert(content){
+function createAlert(content,type="success"){
     let container = document.getElementById("alert_container");
     let alert = document.createElement("div");
-    alert.className="alert_ success";
+    const types = {
+        success:{
+            icon:`<i class="fa-regular fa-circle-check"></i>`,
+            class:`alert_ success`
+        },
+        error:{
+            icon:`<i class="fa-solid fa-circle-exclamation"></i>`,
+            class:`alert_ error`
+        }
+    }
+    alert.className=`${types[type].class}`;
     let cont = document.createElement("div");
     cont.className="content";
-    cont.innerHTML = `<i class="fa-regular fa-circle-check"></i><span>`+content+`</span>`;
+    cont.innerHTML = `${types[type].icon}<span>`+content+`</span>`;
     let close = document.createElement("div");
     close.className="close";
     close.innerHTML = '<i class="fa-solid fa-xmark"></i>';
@@ -157,7 +230,10 @@ function createAlert(content){
     
     container.appendChild(alert);
     setTimeout(()=>{
-        container.removeChild(alert);
+        try{
+            container.removeChild(alert);
+        }catch{}
+        
         
     },4000)
 }
@@ -229,30 +305,44 @@ function showDialog(value={
 
 let device;
 const userAgent = navigator.userAgent;
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
-  //console.log("You are using a mobile device");
-  device="mobile"
-} else {
-  //console.log("You are using a desktop device");
-  device="desktop"
-}
-
-document.querySelector(".joinRoom").addEventListener("click",()=>{
-    showDialog({room:nameRoom})
-})
-
-document.querySelector(".restart").addEventListener("click",async ()=>{
-    await fs.collection("caro").deleteDoc(nameRoom)
-    await joinRoom(nameRoom)
-    createAlert("Bắt đầu ván mới!!!")
-})
-
-showDialog();
-
 const scrollableElement = document.body;
 
 let isDragging = false;
 let startX,startY = 0;
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+  //console.log("You are using a mobile device");
+  device="mobile"
+  scrollableElement.addEventListener('touchstart', (event) => {
+    isDragging = true;
+    const touch = event.touches[0];
+    startX = touch.clientX;
+    startY = touch.clientY;
+  });
+  
+  scrollableElement.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+  
+  scrollableElement.addEventListener('touchmove', (event) => {
+      
+    if (isDragging && running) {
+        const touch = event.touches[0];
+        const deltaX = touch.clientX - startX;
+        const deltaY = touch.clientY - startY;
+        document.documentElement.scrollLeft += -deltaX;
+        document.documentElement.scrollTop += -deltaY;
+        startX = touch.clientX;
+        startY = touch.clientY;
+    }
+  });
+} else {
+  //console.log("You are using a desktop device");
+  device="desktop"
+  
+
+
+//Desktop
 
 scrollableElement.addEventListener('mousedown', (event) => {
   isDragging = true;
@@ -266,8 +356,7 @@ scrollableElement.addEventListener('mouseup', () => {
 
 scrollableElement.addEventListener('mousemove', (event) => {
     
-  if (isDragging) {
-    console.log(123);
+  if (isDragging && running) {
     const deltaX = event.clientX - startX;
     const deltaY = event.clientY - startY;
     document.documentElement.scrollLeft += -deltaX;
@@ -276,30 +365,92 @@ scrollableElement.addEventListener('mousemove', (event) => {
     startY = event.clientY;
   }
 });
+}
 
-scrollableElement.addEventListener('touchstart', (event) => {
-    isDragging = true;
-    const touch = event.touches[0];
-    startX = touch.clientX;
-    startY = touch.clientY;
-  });
-  
-  scrollableElement.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-  
-  scrollableElement.addEventListener('touchmove', (event) => {
-      
-    if (isDragging) {
-        const touch = event.touches[0];
-        const deltaX = touch.clientX - startX;
-        const deltaY = touch.clientY - startY;
-        document.documentElement.scrollLeft += -deltaX;
-        document.documentElement.scrollTop += -deltaY;
-        startX = touch.clientX;
-        startY = touch.clientY;
+document.querySelector(".joinRoom").addEventListener("click",()=>{
+    showDialog({room:nameRoom})
+})
+
+document.querySelector(".restart").addEventListener("click",async ()=>{
+    restart();
+})
+
+async function restart(){
+    await fs.collection("caro").deleteDoc(nameRoom)
+    await joinRoom(nameRoom)
+    createAlert("Bắt đầu ván mới!!!")
+    running=true;
+}
+
+// showDialog();
+
+
+function startTime(time_){
+    document.querySelector("#information .bg-time").style.display = "block"
+    const time_down = document.querySelector("#information .time-down")
+    const time_view = document.querySelector("#information .time-view")
+    time_down.style.transform=`rotate(0deg)`;
+    time_view.innerHTML = time_
+    time_down.style.display = "inline"
+    const sub = 1.8/time_
+    let i=1,j=1;
+    if(timeInterval) clearInterval(timeInterval)
+    timeInterval = setInterval(()=>{
+        time_down.style.transform=`rotate(${sub*i++}deg)`;
+        if (sub*i>180) {
+            clearInterval(timeInterval)
+        }
+        j++
+        if (j==100){
+            j=0;
+            time_view.innerHTML = --time_
+        }
+    },10)
+}
+
+function checkWinner(cell){
+    const [positon,turn] = cell.split("--")
+    const [row,col] = positon.split("_")
+    const [i,j] = [parseInt(row.replace("r","")),parseInt(col.replace("c",""))]
+    let [r_1,r_2] = [i,i]
+    while (cells[`r${r_1}_c${j}`]&&cells[`r${r_1}_c${j}`]==turn) r_1--;
+    while (cells[`r${r_2}_c${j}`]&&cells[`r${r_2}_c${j}`]==turn) r_2++;
+    if (r_2-r_1-1>=5) return true
+
+    let [c_1,c_2] = [j,j]
+    while (cells[`r${i}_c${c_1}`]&&cells[`r${i}_c${c_1}`]==turn) c_1--;
+    while (cells[`r${i}_c${c_2}`]&&cells[`r${i}_c${c_2}`]==turn) c_2++;
+    if (c_2-c_1-1>=5) return true;
+
+
+    let [r_3,r_4,c_3,c_4] = [i,i,j,j]
+    while (cells[`r${r_3}_c${c_3}`]&&cells[`r${r_3}_c${c_3}`]==turn) {
+        r_3--;
+        c_3--;
     }
-  });
+    while (cells[`r${r_4}_c${c_4}`]&&cells[`r${r_4}_c${c_4}`]==turn){
+        c_4++;
+        r_4++;
+    }
+    if (Math.sqrt((r_3-r_4)*(r_3-r_4)+(c_3-c_4)*(c_3-c_4))>=5) return true;
+
+
+    let [r_5,r_6,c_5,c_6] = [i,i,j,j]
+    while (cells[`r${r_5}_c${c_5}`]&&cells[`r${r_5}_c${c_5}`]==turn) {
+        r_5--;
+        c_5++;
+    }
+    while (cells[`r${r_6}_c${c_6}`]&&cells[`r${r_6}_c${c_6}`]==turn){
+        c_6--;
+        r_6++;
+    }
+    if (Math.sqrt((r_5-r_6)*(r_5-r_6)+(c_5-c_6)*(c_5-c_6))>=5) return true;
+
+    return false;
+}
+
+
+
 
 
 
