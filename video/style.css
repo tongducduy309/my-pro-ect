@@ -33,6 +33,12 @@
     font-weight: 600;
 }
 
+.movie .comingSoon{
+    font-size: 0.8rem;
+    font-style: italic;
+    color: rgb(140, 144, 148);
+}
+
 #main span{
     font-weight: 600;
     

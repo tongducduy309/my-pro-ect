@@ -36,11 +36,18 @@
                 data.splice(n,1);
                 const movie = document.createElement("div")
                 movie.className='movie'
+                if (d.link=='')
                 movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie"alt="ẢNH VIDEO">
-                <span>${d.title}</span>`
+                <div>
+                    <span>${d.title}</span><br>
+                    <span class="comingSoon">Đang cập nhật</span>
+                </div>`
+                else movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie"alt="ẢNH VIDEO">
+                    <span>${d.title}</span>`
                 list.appendChild(movie)
                 
                 movie.onclick = function(){
+                    if (d.link!="")
                     window.location.href = `./play_video.html?link=${d.link}&title=${d.title}`
                 }
             }
@@ -56,6 +63,7 @@
     allow="autoplay" 
     allowfullscreen="allowfullscreen" 
     frameborder="0"
+    webkitAllowFullScreen
     class="video"></iframe>
     <div class="title">
         <span>${title}</span>

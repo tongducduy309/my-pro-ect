@@ -70,3 +70,9 @@ body{
 #search .button-search:hover{
     color: #E1306C;
 }
+
+.comingSoon{
+    font-size: 0.6rem;
+    font-style: italic;
+    color: rgb(140, 144, 148);
+}

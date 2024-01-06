@@ -21,10 +21,7 @@
     </div>
     <div id="main">
         <div class="row" id="list">
-            <div class="movie col-md-1">
-                <img src="https://drive.google.com/uc?export=view&id=1Sc_iSXwbGk6LmBAWYVxcDuQ_jJyMmpTH" class="imgMovie"alt="">
-                <span>Bo Gia</span>
-            </div>
+            
             
         </div>
         
@@ -43,9 +40,12 @@
                 movie.className='movie col-md-2'
                 movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie"alt="ẢNH VIDEO">
                 <span>${d.title}</span>`
+                if (d.link=='')
+                movie.innerHTML+=`<span class="comingSoon">Đang cập nhật</span>`
                 list.appendChild(movie)
                 
                 movie.onclick = function(){
+                    if (d.link!="")
                     window.location.href = `./video/play_video.html?link=${d.link}&title=${d.title}`
                 }
             }
