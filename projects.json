@@ -13,5 +13,10 @@
         "name":"Caro",
         "link":"../caro.html",
         "type":"TOOLS"
+    },
+    {
+        "name":"Kho phim",
+        "link":"../cinema.html",
+        "type":"TOOLS"
     }
 ]

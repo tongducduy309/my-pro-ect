@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="icon" type="image/x-icon" href="./cinema/favicon.ico">
+    <title>Video</title>
+    <link rel="stylesheet" href="./cinema/style.css">
+    <link rel="stylesheet" href="./vendor/bootstrap/style_bs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    
+
+</head>
+<body>
+    <div id="filter">
+        <div id="search">
+            <input type="text" placeholder="Tìm kiếm" id="input_search">
+            <i class="fa-solid fa-magnifying-glass button-search"></i>
+        </div>
+    </div>
+    <div id="main">
+        <div class="row" id="list">
+            <div class="movie col-md-1">
+                <img src="https://drive.google.com/uc?export=view&id=1Sc_iSXwbGk6LmBAWYVxcDuQ_jJyMmpTH" class="imgMovie"alt="">
+                <span>Bo Gia</span>
+            </div>
+            
+        </div>
+        
+    </div>
+    <script>
+        fetch('./cinema/list.json')
+        .then((response) => response.json())
+        .then((json) => setListVideo(json))
+
+        const list =  document.getElementById("list");
+
+        function setListVideo(data){
+            list.innerHTML = '';
+            for (let d of data){
+                const movie = document.createElement("div")
+                movie.className='movie col-md-2'
+                movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie"alt="ẢNH VIDEO">
+                <span>${d.title}</span>`
+                list.appendChild(movie)
+                
+                movie.onclick = function(){
+                    window.location.href = `./video/play_video.html?link=${d.link}&title=${d.title}`
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
+    
+    
