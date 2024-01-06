@@ -60,15 +60,17 @@
         const main = document.getElementById('main')
         main.innerHTML = `<iframe src="https://drive.google.com/file/d/${link}/preview" 
     width="640" height="480" 
-    allow="autoplay" 
-    allowfullscreen="allowfullscreen" 
+    allow="fullscreen; gyroscope; accelerometer; magnetometer; vr; xr;"
+    allowfullscreen 
+    webkitallowfullscreen 
+    mozallowfullscreen
+    allowvr="true" 
+    allowfullscreen="true"
     frameborder="0"
-    webkitAllowFullScreen
     class="video"></iframe>
     <div class="title">
         <span>${title}</span>
         </div>`
-        
     </script>
 </body>
 
