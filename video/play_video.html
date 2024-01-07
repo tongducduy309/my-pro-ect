@@ -58,46 +58,41 @@
         const link = urlParams.get('link');
         const title = urlParams.get('title');
         const main = document.getElementById('main')
-        main.innerHTML = `<iframe src="https://drive.google.com/file/d/${link}/preview" 
-    width="640" height="480" 
-    id="iframe"
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-    webkitallowfullscreen 
-    mozallowfullscreen
-    allowvr="true" 
-    allowfullscreen="true"
-    frameborder="0"
-    class="video"></iframe>
+        main.innerHTML = `<video id="myVideo" width="640" height="360" controls class="video">
+  Trình duyệt của bạn không hỗ trợ thẻ video.
+</video>
     <div class="title">
         <span>${title}</span>
         </div>`
-        const iframe = document.getElementById('iframe');
-        function checkOrientation() {
-            console.log("start");
-  const screenOrientation = window.screen.orientation || window.screen.mozOrientation || window.screen.msOrientation;
+        async function loadVideoFromDrive(fileId) {
+  const video = document.getElementById("myVideo");
 
-  if (screenOrientation) {
-    if (screenOrientation.type.startsWith('landscape')) {
-      // Màn hình xoay ngang
-      iframe.style.width = window.innerWidth + 'px';
-  iframe.style.height = window.innerHeight + 'px';
-  iframe.style.position = 'fixed';
-  iframe.style.top = '0';
-  iframe.style.left = '0';
-  iframe.style.zIndex = '9999';
-    } else if (screenOrientation.type.startsWith('portrait')) {
-      // Màn hình xoay dọc
-      console.log(456);
-    }
-  }
+  // Tạo URL liên kết trực tiếp
+  const link = `https://drive.google.com/uc?export=download&id=${fileId}`;
+//   const response = await fetch(link);
+
+// response.setHeaders({
+//   "Access-Control-Allow-Origin": "http://127.0.0.1:5500/",
+//   "Access-Control-Allow-Methods": "GET, POST, PUT, OPTIONS",
+//   "Access-Control-Allow-Headers": "Content-Type, Authorization",
+// });
+  // Truy xuất liên kết bằng API fetch của JavaScript
+  fetch(link)
+    .then(response => response.text())
+    .then(url => {
+      // Trích xuất URL video thực tế từ phản hồi
+      const actualUrl = url.match(/(https?:\/\/drive\.google\.com\/uc\?.*?export=download&id=.*?)(\s|$)/)[1];
+      video.src = url; // Đặt nguồn video
+      video.play(); // Bắt đầu phát
+    })
+    .catch(error => {
+      console.error("Lỗi lấy video:", error);
+      // Xử lý bất kỳ lỗi nào, ví dụ: hiển thị thông báo lỗi cho người dùng
+    });
 }
 
-// Gọi hàm checkOrientation khi cần kiểm tra orientation
-checkOrientation();
-window.addEventListener('orientationchange', ()=>{
-    console.log(123);
-});
-        
+// Ví dụ sử dụng:
+loadVideoFromDrive("1oGl6BL6_u3sGIXFW5It4SBoH3oUfaJ2K");
     </script>
 </body>
 
