@@ -37,7 +37,7 @@
             list.innerHTML = '';
             for (let d of data){
                 const movie = document.createElement("div")
-                movie.className='movie col-md-2'
+                movie.className='movie col-2'
                 movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie"alt="ẢNH VIDEO">
                 <span>${d.title}</span>`
                 if (d.link=='')
