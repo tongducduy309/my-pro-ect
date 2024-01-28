@@ -22,6 +22,7 @@ function getData(projects){
           `
           table.appendChild(tr)
         }
+        
     }
 }
 
