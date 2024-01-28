@@ -50,6 +50,7 @@ table {
   padding-bottom: 16px;
   background: #fff;
   width: 90% !important;
+  user-select: none;
 }
 
 table a{
@@ -67,6 +68,16 @@ tr:nth-child(even) {
 
 tr:nth-child(odd) {
   background-color: #fff;
+}
+
+tr td>div{
+  cursor: pointer;
+  z-index: 10000;
+  
+}
+tr td>div:hover{
+  color: #5e5a5a;
+  
 }
 
 @media screen and (max-width:767px) {

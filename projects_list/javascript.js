@@ -23,27 +23,5 @@ function getData(projects){
           table.appendChild(tr)
         }
     }
-
-    document.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', e => {
-          const href = e.target.href;
-          e.preventDefault();
-          isURLValid(href)
-        });
-      });
-}
-
-function isURLValid(href){
-    console.log(href);
-    fetch(href)
-  .then(response => {
-    if (!response.ok) {
-        
-        window.location.href = "./error/error404.html"
-    }
-    else 
-    window.location.href = href
-    // Hoặc xử lý phản hồi theo định dạng khác
-  })
 }
 
