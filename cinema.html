@@ -27,6 +27,9 @@
         
     </div>
     <script>
+        // Type: "0": Phim chiếu rạp
+        // "1": Phim bộ
+
         let listVideo = [] 
         fetch('./cinema/list.json')
         .then((response) => response.json())
@@ -39,8 +42,8 @@
             
             for (let d of data){
                 const movie = document.createElement("div")
-                movie.className='movie col-2'
-                movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie"alt="ẢNH VIDEO">
+                movie.className='movie col-5 col-md-2'
+                movie.innerHTML=`<img src="https://drive.google.com/uc?export=view&id=${d.id}" class="imgMovie" alt="ẢNH VIDEO">
                 <span>${d.title}</span>`
                 if (d.link=='')
                 movie.innerHTML+=`<span class="comingSoon">Đang cập nhật</span>`
@@ -48,7 +51,12 @@
                 
                 movie.onclick = function(){
                     if (d.link!="")
-                    window.location.href = `./video/play_video.html?link=${d.link}&title=${d.title}`
+                        {
+                            if (d.type==1)
+                                window.location.href = `./video/play_video.html?link=${d.link}&title=${d.title}&type=${d.type}&episode=1`
+                            else
+                                window.location.href = `./video/play_video.html?link=${d.link}&title=${d.title}&type=${d.type}`
+                        }
                 }
             }
         }

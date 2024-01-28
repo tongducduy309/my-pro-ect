@@ -19,6 +19,9 @@
     height: 100vh;
     border-radius: 10px;
 }
+.row{
+    justify-content: center;
+}
 
 #list{
     padding: 10px;
@@ -60,4 +63,21 @@
     margin-top: 20px;
     margin-bottom: 20px;
     
+}
+
+.episodes .episode{
+    background-color: #242424;
+    color: #fff;
+    max-width: 50px;
+    
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin: 5px 2.5px;
+}
+
+.episodes .active{
+    background-color: #f39c29;
 }

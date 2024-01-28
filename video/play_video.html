@@ -7,6 +7,7 @@
     <link rel="icon" type="image/x-icon" href="../cinema/favicon.ico">
     <title>Chiếu phim</title>
     <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="../vendor/bootstrap/style_bs.css">
     
 
 </head>
@@ -23,7 +24,7 @@
         }
         fetch('../cinema/list.json')
         .then((response) => response.json())
-        .then((json) => setListVideo(json))
+        .then((json) => setUp(json))
 
         const list =  document.getElementById("list");
 
@@ -54,24 +55,59 @@
         }
     </script>
     <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const link = urlParams.get('link');
-        const title = urlParams.get('title');
-        const main = document.getElementById('main')
-        main.innerHTML = `<iframe src="https://drive.google.com/file/d/${link}/preview" 
-    width="640" height="480" 
-    id="iframe"
-    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-    webkitallowfullscreen 
-    mozallowfullscreen
-    allowvr="true" 
-    allowfullscreen="true"
-    frameborder="0"
-    class="video"></iframe>
-    <div class="title">
-        <span>${title}</span>
+        function setUp(data){
+            const urlParams = new URLSearchParams(window.location.search);
+            let link = urlParams.get('link');
+            let title = urlParams.get('title');
+            const type = urlParams.get('type');
+            const main = document.getElementById('main')
+            let episode = -1;
+            let epsi = [];
+            let episodeTitle = ""
+            if (type&&type==1){
+                episode = urlParams.get('episode');
+                epsi = data.filter((d={title:String})=>d.title==title)[0]
+                link = epsi.link[episode-1]
+                episodeTitle=` - TẬP ${episode}` 
+            }
+            main.innerHTML = `<iframe src="https://drive.google.com/file/d/${link}/preview" 
+                width="640" height="480" 
+                id="iframe"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                webkitallowfullscreen 
+                mozallowfullscreen
+                allowvr="true" 
+                allowfullscreen="true"
+                frameborder="0"
+                class="video"></iframe>
+                <div class="title">
+                    <span>${title + episodeTitle}</span>
 
-        </div>`
+                    </div>`
+            if (type&&type==1){
+                const episodes = document.createElement("div");
+                episodes.className = 'episodes row'
+                for (let i=0;i<epsi.link.length;i++){
+                    const episodeDiv = document.createElement("div");
+                    episodeDiv.className = 'episode col-1 col-md-1';
+                    if(i+1==episode) episodeDiv.classList.add("active");
+                    episodeDiv.innerHTML = `<span>${i+1}</span>`
+                    
+                    episodeDiv.onclick = function(){
+                        window.location.href = `./play_video.html?link=${epsi.link[i]}&title=${title}&type=${type}&episode=${i+1}`
+                    }
+                    episodes.appendChild(episodeDiv)
+                }
+                main.appendChild(episodes)
+
+                // const iframe = document.getElementById("iframe");
+                // const video = iframe.querySelector(".video-stream");
+                // video.addEventListener("ended", () => {
+                // console.log("Video ended within the iframe!");
+                // });
+            }
+            setListVideo(data);
+        }
 
         
     </script>

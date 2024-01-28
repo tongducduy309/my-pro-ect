@@ -356,7 +356,7 @@ $(document).ready(async () => {
   importCode.id = "importCode"
   importCode.innerHTML = `Nhập mã`;
   importCode.className = "btn"
-  importCode.setAttribute("disabled","true")
+  //importCode.setAttribute("disabled","true")
   list_button.append(importCode);
 
 
@@ -792,7 +792,7 @@ document.addEventListener("keydown", e => {
   }
 });
 document.addEventListener("contextmenu", e => {
-  e.preventDefault();
+  //e.preventDefault();
 });
 window.addEventListener("load",function(){
   try {

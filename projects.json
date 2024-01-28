@@ -2,21 +2,31 @@
     {
         "name":"Tạo thời khóa biểu",
         "link":"../tkb.html",
-        "type":"TOOLS"
+        "type":"TOOLS",
+        "status":1
     },
     {
         "name":"Random - Ngẫu nhiên",
         "link":"../random.html",
-        "type":"TOOLS"
+        "type":"TOOLS",
+        "status":1
     },
     {
         "name":"Caro",
         "link":"../caro.html",
-        "type":"TOOLS"
+        "type":"TOOLS",
+        "status":0
     },
     {
         "name":"Kho phim",
         "link":"../cinema.html",
-        "type":"TOOLS"
+        "type":"TOOLS",
+        "status":1
+    },
+    {
+        "name":"Ứng dụng quản lý bán hàng",
+        "link":"https://www.mediafire.com/file/ate0v79gn5vipwq/BusinessApp_-_Setup.msi/file",
+        "type":"APP",
+        "status":1
     }
 ]

@@ -78,6 +78,7 @@ body{
   padding: 20px;
   display: flex;
   flex-direction: column;
+  height: 300px;
 }
 
 #dialogAdd{
@@ -195,6 +196,7 @@ body{
 #exportJSON, #importCode{
   background-color: #f2f2f2;
   color: #000;
+  
 }
 
 #container_HKIT {
