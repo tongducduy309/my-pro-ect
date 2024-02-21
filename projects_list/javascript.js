@@ -19,7 +19,7 @@ function setEnvironmentDB(){
 }
 
 let projects = []
-fetch('../projects.json')
+fetch('./projects.json')
         .then((response) => response.json())
         .then((json) => getData(json))
 
