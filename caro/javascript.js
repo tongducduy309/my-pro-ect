@@ -6,7 +6,15 @@ const w=100;
 const h =100;
 
 const board = document.getElementById("board")
-const fs = new Firestore();
+const fs = new Firestore({
+    apiKey: "AIzaSyAXtmyMCcSb2lig6GqhFaM_0oKHHa09HWI",
+    authDomain: "newapp-a6378.firebaseapp.com",
+    projectId: "newapp-a6378",
+    storageBucket: "newapp-a6378.appspot.com",
+    messagingSenderId: "440187362295",
+    appId: "1:440187362295:web:effbea8486bad7f95a6cf2",
+    measurementId: "G-CCDEXW4RG9"
+  });
 let nameRoom=null
 
 let turn, t = 0, mark, timeInterval, cells = {},running=true;

@@ -1,6 +1,6 @@
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
 import { getFirestore,collection, doc, getDocs, addDoc, updateDoc, deleteField, deleteDoc, getDoc, onSnapshot, setDoc} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
-
+import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.8.0/firebase-storage.min.js";
 
   
 export class collection_{
@@ -12,7 +12,6 @@ export class collection_{
 
     //await fs.collection("name").add(value)  value:{}
     async add(value = {},id = ""){
-        console.log(value,id);
         if (id!="")
         {
             const docRef = doc(this.db, this.name, id);
@@ -80,7 +79,7 @@ export class collection_{
                 doc(this.db, this.name, id), 
                 { includeMetadataChanges: includeMetadataChanges }, 
                 (doc) => {
-                f(doc.data());
+                f(doc.data(),doc.id);
                 });
             else onSnapshot(
                 collection(this.db, this.name), 
@@ -88,7 +87,7 @@ export class collection_{
                 (querySnapshot) => {
                     const data = [];
                     querySnapshot.forEach((doc) => {
-                        data.push(doc.data());
+                        data.push({id:doc.id,values:doc.data()});
                     });
                     f(data);
                 });
@@ -100,40 +99,63 @@ export class collection_{
 
 }
 
+export class storage_{
+    constructor(){
+
+    }
+    getStorageRef(path){
+        return ref(this.storage,path)
+    }
+
+    uploadBytesResumable(path,file, f1 = ()=>{}, f2 = ()=>{}){
+        const ref = this.getStorageRef(path);
+        const uploadTask =  uploadBytesResumable(ref,file);
+        uploadTask.on('state_changed',
+        (snapshot)=> {
+            f1(snapshot);
+        },
+        (error)=> {
+            console.log("error");
+        },
+        f2(uploadTask.snapshot.ref)
+        )
+    }
+}
+
 
 export class Firestore{
-    constructor(){
-        this.db = this.setEnvironmentDB()
+    constructor(firebaseConfig){
+        this.firebaseConfig = firebaseConfig;
+        this.db = this.setEnvironmentDB(firebaseConfig)
+        this.storage = null;
         //this.collection = collection(this.db,"name")
     }
-    setEnvironmentDB(){
-        const firebaseConfig = {
-            apiKey: "AIzaSyAXtmyMCcSb2lig6GqhFaM_0oKHHa09HWI",
-            authDomain: "newapp-a6378.firebaseapp.com",
-            projectId: "newapp-a6378",
-            storageBucket: "newapp-a6378.appspot.com",
-            messagingSenderId: "440187362295",
-            appId: "1:440187362295:web:effbea8486bad7f95a6cf2",
-            measurementId: "G-CCDEXW4RG9"
-          };
+    setEnvironmentDB(firebaseConfig){
         
           // Initialize Firebase
         const app = initializeApp(firebaseConfig);
         return getFirestore(app);
+    }
+    setStorage(){
+        const app = initializeApp(this.firebaseConfig);
+        this.storage = getStorage(app)
     }
 
     collection(name){
         return new collection_(this.db,name)
     }
 
+    storage(){
+        if (this.storage!=null)
+        return new storage_(this.storage)
+    }
+    
+
 
 
     
 }
 
-function search(l){
-    
-}
 
 
 

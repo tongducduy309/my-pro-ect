@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="icon" type="image/x-icon" href="./caro/favicon.ico">
+    <title>Gallery</title>
+    <link rel="stylesheet" href="./gallery/style.css">
+    <link rel="stylesheet" href="./vendor/bootstrap/style_bs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+</head>
+
+<body>
+    <span id="message"></span>
+    <div id="container_">
+        <div id="_nav">
+            <span>Mã: <span id="code"></span></span>
+            <div class="logout btn">ĐĂNG XUẤT</div>
+            <div class="notification">
+                <i class="fa-regular fa-bell"></i>
+                <span class="number_notif">1</span>
+            </div>
+        </div>
+        <div class="addItem">
+            <i class="fa-solid fa-plus"></i>
+        </div>
+        <div>
+            <div class="groupButton">
+                <div class="btnOption btnCreateFolder">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>Tạo thư mục mới</span>
+                </div>
+                <div class="addImage">
+                    <div class="drop-area">
+                        <div class="imageGuide">
+                            <img src="./gallery/image.png" draggable="false" alt="">
+                            <input type="file" id = "inputUploadImage" accept="image/*" hidden>
+                            <span>Kéo hoặc nhấn vào để chọn hình</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main">
+                <div class="header">
+                    <div class="groupLeft">
+                        <div class="backFolder">
+                            <i class="fa-solid fa-angle-left"></i>
+                        </div>
+                        <span class="nameSubFolder"></span>
+                    </div>
+                    <div class="group">
+                        <div class="list selected">
+                            <i class="fa-solid fa-list-ul"></i>
+                        </div>
+                        <div class="grid">
+                            <i class="fa-solid fa-grip"></i>
+                        </div>
+                        <div class="sort">
+                            <i class="fa-solid fa-arrow-down-wide-short"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="listItem row" id="listItem">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bgImage">
+        <i class="fa-solid fa-xmark close"></i>
+        <img src="./introduce_myself/z4804483776778_68f9933d56dfa5c0e0f7b0586300a454.jpg" alt="">
+    </div>
+    <script type="module" src="./gallery/javascript.js"></script>
+
+</body>
+</html>

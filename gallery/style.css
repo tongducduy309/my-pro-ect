@@ -1,0 +1,362 @@
+* 
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+
+
+.message{
+    margin-bottom: 10px;
+    color: #c93838;
+}
+
+.container_{
+    display: none;
+}
+
+#_nav{
+    width: calc(100%-40px);
+    height: 60px;
+    background-color: #000000;
+    z-index: 1000;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+}
+
+#_nav>span{
+    font-weight: 800;
+    color: #fff;
+}
+
+#_nav #nameRoom{
+    margin: 10px;
+}
+
+#_nav .copyRoom,.restart{
+    cursor: pointer;
+    color: #fff;
+}
+
+#_nav .btn{
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px !important;
+    font-weight: 500;
+    padding: 10px 15px;
+    text-align: center;
+    user-select: none;
+    color: #fff;
+    font-weight: 800;
+    background-color: #44474e;
+    margin: 40px;
+}
+#_nav .notification{
+    color: #ffffff;
+    font-size: 1.2rem;
+    user-select: none;
+    cursor: pointer;
+    padding: 3px;
+    border-radius: 8px;
+}
+
+#_nav .notification:hover{
+    background-color: rgba(31,38,67,0.7);
+}
+
+#_nav .notification i{
+    margin-right: 5px;
+}
+
+#_nav .notification span{
+    font-weight: 600;
+}
+
+.addItem{
+    border-radius: 100%;
+    width: 50px;
+    height: 50px;
+    background-color: #ffffff;
+    box-shadow: 0px 3px 25px 0px rgba(31,38,67,0.5);
+    color: #a5a5a5;
+    font-weight: 900;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    position: fixed;
+    bottom: 40px;
+    right: 40px;
+}
+
+.groupButton{
+    border-right: 1px solid rgba(31,38,67,.1);
+    position: fixed;
+    top: 60px;
+    height: 100%;
+    width: 300px;
+    font-weight: 600;
+}
+
+.groupButton i{
+    margin-right: 10px;
+}
+
+.btnOption{
+    padding: 10px 20px;
+    background-color: #66666673;
+    cursor: pointer;
+}
+
+.btnOption:hover{
+    background-color: #555555;
+    color: #ffffff;
+}
+
+.main{
+    margin-left: 300px;
+    width: calc(100%-300px);
+    height: max-content;
+}
+
+.main .header{
+    position: relative;
+    border-bottom: 1px solid rgba(31,38,67,.1);
+    height: 50px;
+    width: 100%;
+}
+
+.main .header .groupLeft{
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    user-select: none;
+    
+}
+
+.main .header .groupLeft div{
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.main .header .groupLeft div:hover{
+    background-color: rgba(31,38,67,.1);
+}
+
+.main .nameSubFolder{
+    font-weight: 500;
+}
+
+.main .header .group{
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    user-select: none;
+    
+}
+
+.main .header .group div{
+    margin-right: 10px;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 8px;
+    padding: 5px;
+}
+
+.main .header .group .selected{
+    background-color: rgba(31,38,67,.2);
+}
+
+.main .header .group div:hover{
+    background-color: rgba(31,38,67,.1);
+}
+
+.listItem{
+    width: 100%;
+    padding: 10px;
+}
+
+.folderGrid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 8px;
+}
+
+.folderGrid i{
+    color: rgba(31,38,67,.2);
+    font-size: 50px;
+    margin-bottom: 10px;
+}
+
+.folderGrid:hover{
+    background-color: rgba(31,38,67,.1);
+}
+
+.folderGrid .inputFolderName, .folderList .inputFolderName{
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+.imageGrid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    border-radius: 8px;
+}
+
+.imageGrid img{
+    width: 100%;
+    aspect-ratio: 1/1;
+    margin-bottom: 10px;
+}
+
+.imageGrid span{
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.imageGrid:hover{
+    background-color: rgba(31,38,67,.1);
+}
+
+.imageGrid .inputimageName, .imageList .inputimageName{
+    width: 100%;
+    font-size: 0.8rem;
+}
+
+.folderList{
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    padding: 0 20px;
+    border-bottom: 1px solid rgba(31,38,67,.1);
+
+}
+.folderList:hover{
+    background-color: rgba(31,38,67,.1);
+}
+
+.folderList i{
+    color: rgba(31,38,67,.2);
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+#contextmenuFolder{
+    display: none;
+    background-color: #fff;
+    box-shadow: 2px 3px 25px 0px rgba(31,38,67,0.5);
+    position: absolute;
+    z-index: 10;
+    width: max-content;
+    padding: 10px 0px;
+}
+#contextmenuFolder li{
+    display: flex;
+    align-items: center;
+    padding: 5px 20px;
+    color: #000;
+    cursor: pointer;
+
+}
+
+#contextmenuFolder li i{
+    margin-right: 10px;
+}
+  
+#contextmenuFolder li:hover{
+    background-color: rgba(31,38,67,0.1);
+}
+
+.bgImage{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(83, 83, 83, 0.7);
+    overflow: hidden;
+}
+
+.bgImage{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(83, 83, 83, 0.7);
+    overflow: hidden;
+    display: none;
+}
+
+.bgImage .close{
+    color: #ffffff;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    cursor: pointer;
+}
+
+.bgImage img{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    object-fit: cover;
+    transform: translate(-50%,-50%);
+}
+
+.btnCreateFolder{
+    display: none;
+    visibility: hidden;
+}
+
+.addImage{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+}
+
+.addImage .drop-area{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 90%;
+    height: 80%;
+    border-radius: 10px;
+    border: 2px dashed #000000;
+    cursor: pointer;
+    
+}
+
+.imageGuide{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    user-select: none;
+    
+}
+
+.imageGuide img{
+    width: 100%;
+    margin-bottom: 10px;
+}
