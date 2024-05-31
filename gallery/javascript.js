@@ -5,11 +5,14 @@ import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "https://c
 let name =  null;
 let btnCreateFolder = document.querySelector(".btnCreateFolder");
 let listItem = document.getElementById("listItem");
-let selectedFolderId = null, selectedFolder = null;
+let selectedFolderId = null, selectedFolder = null, selectedImageId= null, selectedImage=null;
 let btnList = document.querySelector(".group .list")
 let btnGrid = document.querySelector(".group .grid")
+let btnBackFolder = document.querySelector(".groupLeft .backFolder")
 let proccessing_createFolder = false;
 let proccessing_rename = false;
+let listImage = {};
+
 
 
 const fs = new Firestore({
@@ -20,7 +23,9 @@ const fs = new Firestore({
     messagingSenderId: "396749476892",
     appId: "1:396749476892:web:608fd2e2968d21c6553bd9",
     measurementId: "G-EQL9HPG3VE"
-  });
+});
+
+fs.setStorage();
 
 
 let ip = await getIPAddress();
@@ -79,7 +84,16 @@ function loadData(){
     document.getElementById("message").style.display = 'none';
     document.getElementById("container_").style.display = 'block';
     document.getElementById("code").textContent = code;
-    loadFolder()
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const idFolder = urlParams.get('idF')
+    const nameFolder = urlParams.get('nameF')
+    if (idFolder!==null){
+        document.querySelector(".nameSubFolder").textContent = nameFolder
+        loadItems(idFolder)
+        selectedFolderId = idFolder
+    }
+    else loadFolder()
 }
 
 let modeView = "grid"
@@ -88,44 +102,44 @@ const sort = document.querySelector(".sort")
 sort.addEventListener("click",()=>{
     sortItem();
 })
-function loadFolder(){
+async function loadFolder(){
     
     
     proccessing_rename = false;
     proccessing_createFolder = false;
+    let listFolder = await fs.collection("folders").getCollection()
+    listFolder = listFolder.array;
+    listItem.innerHTML = ""
+    listItemView = {}
     if (modeView=="grid"){
         listItem.classList.add("row")
         listItem.style.padding = '10px'
-        fs.collection("folders").subscribe((folders)=>{
-            listItem.innerHTML = ""
-            listItemView = {}
-            folders.forEach(folder => {
-                // if (folder.values.access){
-                //     if (folder.values.access.indexOf(code)!=-1){
-                        
-                //     }
-                // }
-                listItem.appendChild(getFolderGrid(folder.values.name,folder.id))
-                listItemView[folder.values.name]=folder
-            });
-        })
+        
+        listFolder.forEach(folder => {
+            // if (folder.values.access){
+            //     if (folder.values.access.indexOf(code)!=-1){
+                    
+            //     }
+            // }
+            console.log(folder);
+            listItem.appendChild(getFolderGrid(folder.name,folder._id))
+            listItemView[folder.name]=folder
+        });
     }
     else{
         listItem.classList.remove("row")
         listItem.style.padding = '0'
-        fs.collection("folders").subscribe((folders)=>{
-            listItem.innerHTML = ""
-            listItemView = {}
-            folders.forEach(folder => {
-                // if (folder.values.access){
-                //     if (folder.values.access.indexOf(code)!=-1){
-                        
-                //     }
-                // }
-                listItem.appendChild(getFolderList(folder.values.name,folder.id))
-                listItemView[folder.values.name]=folder
-            });
-        })
+        
+            
+        listFolder.forEach(folder => {
+            // if (folder.values.access){
+            //     if (folder.values.access.indexOf(code)!=-1){
+                    
+            //     }
+            // }
+            listItem.appendChild(getFolderList(folder.name,folder._id))
+            listItemView[folder.name]=folder
+        });
     }
 }
 
@@ -155,41 +169,40 @@ dropImage.addEventListener("click", (event) => {
 
 inputUploadImage.addEventListener("change",()=>{
     let imageLink = URL.createObjectURL(inputUploadImage.files[0])
+    const id = createID()
     document.getElementById("listItem").appendChild(getImageGrid(inputUploadImage.files[0].name,imageLink,inputUploadImage.files[0].name))
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyCcSciNlWNlwcx52vaYjBtThmpCWQMEZ3E",
-        authDomain: "local1-19885.firebaseapp.com",
-        projectId: "local1-19885",
-        storageBucket: "local1-19885.appspot.com",
-        messagingSenderId: "396749476892",
-        appId: "1:396749476892:web:608fd2e2968d21c6553bd9",
-        measurementId: "G-EQL9HPG3VE"
-    };
-      // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const storage = getStorage(app);
-    const storageRef = ref(storage,'Images/'+inputUploadImage.files[0].name);
-    const uploadTask =  uploadBytesResumable(storageRef,inputUploadImage.files[0]);
-    uploadTask.on('state_changed',
-    (snapshot)=> {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes);
-        console.log('Upload is' + progress + '%done');
-    },
-    (error)=> {
-        console.log("error");
-    },
-    () => {
+    const storageRef = fs.storage().getStorageRef();
+    fs.storage().uploadBytesResumable('Images/'+id,inputUploadImage.files[0],(snapshot)=>{
+        
 
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-        //this.UrlFileImg = downloadURL;
-        //this.file.path=downloadURL;
-        //this.addProduct();
-        //console.log('File available at',  this.UrlFileImg);
+    }, (uploadTask)=>{
+        let value = {}
+        let v ={}
+        v[id]=inputUploadImage.files[0].name
+        value["items"]={...listImage,...v}
+        fs.collection('folders').update(selectedFolderId,value)
+    })
+    // const uploadTask =  uploadBytesResumable(storageRef,inputUploadImage.files[0]);
+    // uploadTask.on('state_changed',
+    // (snapshot)=> {
+    //     const progress = (snapshot.bytesTransferred / snapshot.totalBytes);
+    //     console.log('Upload is' + progress + '%done');
+    // },
+    // (error)=> {
+    //     console.log("error");
+    // },
+    // () => {
 
-        });
-    }
-    )
+    //     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+    //     //this.UrlFileImg = downloadURL;
+    //     //this.file.path=downloadURL;
+    //     //this.addProduct();
+    //     //console.log('File available at',  this.UrlFileImg);
+
+    //     });
+    // }
+    // )
 })
 
 function setFiles(file){
@@ -215,9 +228,9 @@ function loadItems(idFolder){
         const images = folder.items;
         document.getElementById("listItem").innerHTML = ""
         console.log(document.getElementById("listItem").innerHTML);
-        images.forEach(imageLink => {
-            console.log(imageLink);
-            getImage(storage,imageLink,folder.id,imageLink)
+        listImage = {...images}
+        Object.keys(images).forEach(id => {
+            getImage(storage,images[id],id,`gs://local1-19885.appspot.com/Images/${id}`)
         });
         
     },idFolder,false)
@@ -226,7 +239,6 @@ function loadItems(idFolder){
 }
 
 function getImage(storage,name,idImage,link){
-    
     const storageRef = ref(storage, link);
 
     // Get the download URL
@@ -251,30 +263,107 @@ function getImageGrid(nameImage,url,idImage){
     `
     image.onclick = function(){
         //loadItems(idImage)
-        loadImage(url)
+        loadImage(nameImage,url,idImage)
     }
     image.addEventListener("contextmenu", (event) => {
         event.preventDefault();
-        contextmenuFolder.style.display="block";
-        contextmenuFolder.style.top=event.y+window.scrollY+"px";
-        contextmenuFolder.style.left=event.x+"px";
-        selectedFolderId = idFolder
-        selectedFolder = folder
+        contextmenuImage.style.display="block";
+        contextmenuImage.style.top=event.y+window.scrollY+"px";
+        contextmenuImage.style.left=event.x+"px";
+        selectedImageId = idImage
+        selectedImage=image
+       
 
         
     });
     return image
 }
 
-function loadImage(url){
+function formatEncode(n,a){
+    let code=['A','B','C','D','E','F','G','H','I','J'];
+    let s=n+"";
+    while (s.length<a) s='0'+s;
+    let x='';
+    for (let i=0;i<a;i++) x+=code[parseInt(s[i])];
+    
+    
+    return x;
+}
+function createID(){
+    let date = new Date();
+    let d=[date.getDate(),date.getMonth(),(date.getFullYear()+"").slice(2,4),date.getHours(),date.getMinutes(),date.getSeconds(),date.getMilliseconds()];
+    let n=[2,2,2,2,2,2,4];
+    let id='#';
+    for (let i=0;i<d.length;i++) id+=formatEncode(d[i],n[i]);
+    return id;
+}
+
+function bitmapToImageDataURL(bitmapData,width,height) {
+    // ... (parse bitmap data and convert to pixel information)
+  
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+  
+    // Set canvas dimensions based on bitmap data
+    canvas.width = width; // Replace with width extracted from bitmap data
+    canvas.height = height; // Replace with height extracted from bitmap data
+  
+    const imageData = context.createImageData(canvas.width, canvas.height);
+  
+    context.putImageData(imageData, 0, 0);
+  
+    const dataURL = canvas.toDataURL('image/png'); // Replace with desired format (e.g., 'image/jpeg')
+    return dataURL;
+  }
+
+function loadImage(nameImage,url,idImage){
     const bgImage = document.querySelector(".bgImage")
     bgImage.style.display = "block"
     const close = bgImage.querySelector(".close")
+    const download = bgImage.querySelector(".download")
+    const source = bgImage.querySelector(".sourceImage")
     const image = bgImage.querySelector("img")
     close.onclick = function(){
         bgImage.style.display = 'none'
     }
+    //console.log(url);
+    source.onclick = function(){
+        const downloadLink = document.createElement("a");
+        downloadLink.target="_blank"
+        downloadLink.href = url;
+        downloadLink.click();
+    }
     image.src = url
+    console.log(url);
+    download.onclick = function(){
+        const firebaseImageUrl = url; // Replace with your Firebase image URL
+        const xhr = new XMLHttpRequest(); // Or use Fetch API with libraries like Axios
+
+        xhr.open('GET', './gallery.html', true); // Replace '/download-image' with your server-side script endpoint
+        xhr.responseType = 'blob'; // Request image data as a blob
+
+        xhr.onload = function() {
+            if (this.status === 200) { // Check for successful response
+            const blob = this.response;
+            const url = bitmapToImageDataURL(blob,500,500)
+            console.log(url);// Create temporary URL
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'downloaded_image.jpg'; // Set desired filename (optional)
+            link.click();
+
+            // Revoke temporary URL after download to avoid memory leaks
+            window.URL.revokeObjectURL(url);
+            } else {
+            console.error('Error downloading image:', this.statusText);
+            // Handle download errors gracefully (optional)
+            }
+        };
+
+        xhr.send(JSON.stringify({ firebaseImageUrl }));
+    }
+    
     var width = image.clientWidth;
     var height = image.clientHeight;
     if (width>height)
@@ -310,6 +399,8 @@ function getFolderGrid(nameFolder,idFolder){
     folder.onclick = function(){
         document.querySelector(".nameSubFolder").textContent = nameFolder
         loadItems(idFolder)
+        selectedFolderId = idFolder
+        window.location.href = `./gallery.html?idF=${idFolder}&nameF=${nameFolder}`
     }
     folder.addEventListener("contextmenu", (event) => {
         event.preventDefault();
@@ -332,7 +423,10 @@ function getFolderList(nameFolder,idFolder){
     <span class="folderName">${nameFolder}</span>
     `
     folder.onclick = function(){
-
+        document.querySelector(".nameSubFolder").textContent = nameFolder
+        loadItems(idFolder)
+        selectedFolderId = idFolder
+        window.location.href = `./gallery.html?idF=${idFolder}&nameF=${nameFolder}`
     }
     folder.addEventListener("contextmenu", (event) => {
         event.preventDefault();
@@ -388,21 +482,43 @@ function addFolderToDB(name){
 }
 
 const contextmenuFolder = document.createElement("div");
+const contextmenuImage = document.createElement("div");
+
+
 createContextMenuFolder()
+createContextMenuImage()
 
 function createContextMenuFolder(){
     
     contextmenuFolder.id="contextmenuFolder"
     contextmenuFolder.innerHTML=`
-    <li id="rename"><i class="fa-solid fa-pen-to-square"></i><span>Đổi tên</span></li>
-    <li id="delete"><i class="fa-solid fa-trash-can"></i><span>Xóa thư mục</span></li>
+    <li class="rename"><i class="fa-solid fa-pen-to-square"></i><span>Đổi tên</span></li>
+    <li class="delete"><i class="fa-solid fa-trash-can"></i><span>Xóa thư mục</span></li>
     `
     document.getElementById("container_").append(contextmenuFolder)
-    contextmenuFolder.querySelector("#delete").addEventListener("click",()=>{
+    contextmenuFolder.querySelector(".delete").addEventListener("click",()=>{
         fs.collection("folders").deleteDoc(selectedFolderId)
     })
-    contextmenuFolder.querySelector("#rename").addEventListener("click",()=>{
+    contextmenuFolder.querySelector(".rename").addEventListener("click",()=>{
         renameFolder();
+    })
+}
+
+function createContextMenuImage(){
+    
+    contextmenuImage.id="contextmenuImage"
+    contextmenuImage.innerHTML=`
+    <li class="delete"><i class="fa-solid fa-download"></i><span>Tải về</span></li>
+    <li class="rename"><i class="fa-solid fa-pen-to-square"></i><span>Đổi tên</span></li>
+    <li class="delete"><i class="fa-solid fa-trash-can"></i><span>Xóa ảnh</span></li>
+    
+    `
+    document.getElementById("container_").append(contextmenuImage)
+    contextmenuImage.querySelector(".delete").addEventListener("click",()=>{
+        fs.collection("Images").deleteDoc(selectedFolderId)
+    })
+    contextmenuImage.querySelector(".rename").addEventListener("click",()=>{
+        renameImage();
     })
 }
 
@@ -430,8 +546,31 @@ function renameFolder(){
     input.focus();
 }
 
+function renameImage(){
+    
+    let imageName = selectedImage.querySelector(".nameFile");
+    selectedImage.removeChild(imageName)
+    const input = document.createElement('input')
+    input.className = 'inputFolderName'
+    
+    input.value = imageName.textContent
+    
+    input.autofocus = true
+    input.addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            fs.collection("folders").update(selectedFolderId,{name:input.value})
+            proccessing_rename = false;
+        }
+    });
+    selectedImage.append(input)
+    input.select()
+    input.focus();
+}
+
 document.addEventListener("mouseup",function(e){
     contextmenuFolder.style.display="none";
+    contextmenuImage.style.display="none";
     if(proccessing_rename===true||proccessing_createFolder===true){
         
         loadFolder()
@@ -459,5 +598,9 @@ btnList.addEventListener("click",()=>{
     btnGrid.classList.remove("selected")
     modeView = "list"
     loadFolder()
+})
+
+btnBackFolder.addEventListener("click",()=>{
+    window.location.href = `./gallery.html`
 })
 

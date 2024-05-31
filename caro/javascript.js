@@ -18,23 +18,66 @@ const fs = new Firestore({
 let nameRoom=null
 
 let turn, t = 0, mark, timeInterval, cells = {},running=true;
+let table = {}
+
+// let ip = await getIPAddress();
+
+// async function getIPAddress() {
+//     try {
+//       const response = await fetch('https://api.ipify.org?format=json');
+//       const data = await response.json();
+//       return data.ip;
+//     } catch (error) {
+//       console.error('Error fetching IP address:', error);
+//       return 'Unknown IP';
+//     }
+//   }
+function checkWinner(i,j){
+    let turn = cells[`r${i}_c${j}`]
+
+    let [r_1,r_2] = [i,i]
+    while (cells[`r${r_1}_c${j}`]&&cells[`r${r_1}_c${j}`]==turn) r_1--;
+    while (cells[`r${r_2}_c${j}`]&&cells[`r${r_2}_c${j}`]==turn) r_2++;
+    if (r_2-r_1-1>=5) return true
+
+    let [c_1,c_2] = [j,j]
+    while (cells[`r${i}_c${c_1}`]&&cells[`r${i}_c${c_1}`]==turn) c_1--;
+    while (cells[`r${i}_c${c_2}`]&&cells[`r${i}_c${c_2}`]==turn) c_2++;
+    if (c_2-c_1-1>=5) return true;
 
 
-let ip = await getIPAddress();
-
-async function getIPAddress() {
-    try {
-      const response = await fetch('https://api.ipify.org?format=json');
-      const data = await response.json();
-      return data.ip;
-    } catch (error) {
-      console.error('Error fetching IP address:', error);
-      return 'Unknown IP';
+    let [r_3,r_4,c_3,c_4] = [i,i,j,j]
+    while (cells[`r${r_3}_c${c_3}`]&&cells[`r${r_3}_c${c_3}`]==turn) {
+        r_3--;
+        c_3--;
     }
-  }
+    while (cells[`r${r_4}_c${c_4}`]&&cells[`r${r_4}_c${c_4}`]==turn){
+        c_4++;
+        r_4++;
+    }
+    if ((r_4-r_3)==6&&(r_4-r_3)==(c_4-c_3)) return true;
+
+
+    let [r_5,r_6,c_5,c_6] = [i,i,j,j]
+    while (cells[`r${r_5}_c${c_5}`]&&cells[`r${r_5}_c${c_5}`]==turn) {
+        r_5--;
+        c_5++;
+    }
+    while (cells[`r${r_6}_c${c_6}`]&&cells[`r${r_6}_c${c_6}`]==turn){
+        c_6--;
+        r_6++;
+    }
+    if ((r_6-r_5)==6&&(r_6-r_5)==(c_5-c_6)) return true;
+    
+
+    return false;
+}
 
 function createBoard(){
     board.innerHTML = ''
+    turn = 'x'
+    mark = 'x'
+    cells = {}
     for (let i=0;i<h;i++){
         const tr = document.createElement("tr")
         for (let j=0;j<w;j++){
@@ -44,18 +87,24 @@ function createBoard(){
             tr.appendChild(td)
             
             td.onclick = function(){
-                console.log(123);
-                if (nameRoom!=null)
-                {
-                    if (turn==mark)
+                // if (nameRoom!=null)
+                // {
+                    // if (turn==mark)
                     if(td.className.indexOf("tick_x")==-1&&td.className.indexOf("tick_o")==-1){
                         td.classList.add(`tick_${turn}`)
                         let value = {}
                         value[`turn_${t}`]=`${cls}--${turn}`
-                        fs.collection("caro").update(nameRoom,value)
+                        turn =  (turn=='x')?"o":"x"
+                        cells[`r${i}_c${j}`]=turn
+                        if (checkWinner(i,j)) {
+                            console.log('Win');
+                            cel.start(restart);
+                            running=false;
+                        }
+                        //fs.collection("caro").update(nameRoom,value)
                     }
-                }
-                else showDialog()
+                // }
+                // else showDialog()
                 
             }
         }
@@ -384,8 +433,8 @@ document.querySelector(".restart").addEventListener("click",async ()=>{
 })
 
 async function restart(){
-    await fs.collection("caro").deleteDoc(nameRoom)
-    await joinRoom(nameRoom)
+    // 
+    createBoard()
     createAlert("Bắt đầu ván mới!!!")
     running=true;
 }
@@ -416,46 +465,46 @@ function startTime(time_){
     },10)
 }
 
-function checkWinner(cell){
-    const [positon,turn] = cell.split("--")
-    const [row,col] = positon.split("_")
-    const [i,j] = [parseInt(row.replace("r","")),parseInt(col.replace("c",""))]
-    let [r_1,r_2] = [i,i]
-    while (cells[`r${r_1}_c${j}`]&&cells[`r${r_1}_c${j}`]==turn) r_1--;
-    while (cells[`r${r_2}_c${j}`]&&cells[`r${r_2}_c${j}`]==turn) r_2++;
-    if (r_2-r_1-1>=5) return true
+// function checkWinner(cell){
+//     const [positon,turn] = cell.split("--")
+//     const [row,col] = positon.split("_")
+//     const [i,j] = [parseInt(row.replace("r","")),parseInt(col.replace("c",""))]
+//     let [r_1,r_2] = [i,i]
+//     while (cells[`r${r_1}_c${j}`]&&cells[`r${r_1}_c${j}`]==turn) r_1--;
+//     while (cells[`r${r_2}_c${j}`]&&cells[`r${r_2}_c${j}`]==turn) r_2++;
+//     if (r_2-r_1-1>=5) return true
 
-    let [c_1,c_2] = [j,j]
-    while (cells[`r${i}_c${c_1}`]&&cells[`r${i}_c${c_1}`]==turn) c_1--;
-    while (cells[`r${i}_c${c_2}`]&&cells[`r${i}_c${c_2}`]==turn) c_2++;
-    if (c_2-c_1-1>=5) return true;
-
-
-    let [r_3,r_4,c_3,c_4] = [i,i,j,j]
-    while (cells[`r${r_3}_c${c_3}`]&&cells[`r${r_3}_c${c_3}`]==turn) {
-        r_3--;
-        c_3--;
-    }
-    while (cells[`r${r_4}_c${c_4}`]&&cells[`r${r_4}_c${c_4}`]==turn){
-        c_4++;
-        r_4++;
-    }
-    if (Math.sqrt((r_3-r_4)*(r_3-r_4)+(c_3-c_4)*(c_3-c_4))>=5) return true;
+//     let [c_1,c_2] = [j,j]
+//     while (cells[`r${i}_c${c_1}`]&&cells[`r${i}_c${c_1}`]==turn) c_1--;
+//     while (cells[`r${i}_c${c_2}`]&&cells[`r${i}_c${c_2}`]==turn) c_2++;
+//     if (c_2-c_1-1>=5) return true;
 
 
-    let [r_5,r_6,c_5,c_6] = [i,i,j,j]
-    while (cells[`r${r_5}_c${c_5}`]&&cells[`r${r_5}_c${c_5}`]==turn) {
-        r_5--;
-        c_5++;
-    }
-    while (cells[`r${r_6}_c${c_6}`]&&cells[`r${r_6}_c${c_6}`]==turn){
-        c_6--;
-        r_6++;
-    }
-    if (Math.sqrt((r_5-r_6)*(r_5-r_6)+(c_5-c_6)*(c_5-c_6))>=5) return true;
+//     let [r_3,r_4,c_3,c_4] = [i,i,j,j]
+//     while (cells[`r${r_3}_c${c_3}`]&&cells[`r${r_3}_c${c_3}`]==turn) {
+//         r_3--;
+//         c_3--;
+//     }
+//     while (cells[`r${r_4}_c${c_4}`]&&cells[`r${r_4}_c${c_4}`]==turn){
+//         c_4++;
+//         r_4++;
+//     }
+//     if (Math.sqrt((r_3-r_4)*(r_3-r_4)+(c_3-c_4)*(c_3-c_4))>=5) return true;
 
-    return false;
-}
+
+//     let [r_5,r_6,c_5,c_6] = [i,i,j,j]
+//     while (cells[`r${r_5}_c${c_5}`]&&cells[`r${r_5}_c${c_5}`]==turn) {
+//         r_5--;
+//         c_5++;
+//     }
+//     while (cells[`r${r_6}_c${c_6}`]&&cells[`r${r_6}_c${c_6}`]==turn){
+//         c_6--;
+//         r_6++;
+//     }
+//     if (Math.sqrt((r_5-r_6)*(r_5-r_6)+(c_5-c_6)*(c_5-c_6))>=5) return true;
+
+//     return false;
+// }
 
 
 

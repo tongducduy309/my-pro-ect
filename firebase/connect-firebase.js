@@ -1,5 +1,6 @@
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
-import { getFirestore,collection, doc, getDocs, addDoc, updateDoc, deleteField, deleteDoc, getDoc, onSnapshot, setDoc} from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js'
+// import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js'
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"
+import { getFirestore,collection, doc, getDocs, addDoc, updateDoc, deleteField, deleteDoc, getDoc, onSnapshot, setDoc} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js'
 import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "https://cdnjs.cloudflare.com/ajax/libs/firebase/10.8.0/firebase-storage.min.js";
 
   
@@ -100,8 +101,8 @@ export class collection_{
 }
 
 export class storage_{
-    constructor(){
-
+    constructor(storage){
+        this.storage = storage
     }
     getStorageRef(path){
         return ref(this.storage,path)
@@ -117,7 +118,7 @@ export class storage_{
         (error)=> {
             console.log("error");
         },
-        f2(uploadTask.snapshot.ref)
+        f2(uploadTask)
         )
     }
 }
@@ -127,7 +128,7 @@ export class Firestore{
     constructor(firebaseConfig){
         this.firebaseConfig = firebaseConfig;
         this.db = this.setEnvironmentDB(firebaseConfig)
-        this.storage = null;
+        this.stor = null;
         //this.collection = collection(this.db,"name")
     }
     setEnvironmentDB(firebaseConfig){
@@ -138,7 +139,7 @@ export class Firestore{
     }
     setStorage(){
         const app = initializeApp(this.firebaseConfig);
-        this.storage = getStorage(app)
+        this.stor = getStorage(app)
     }
 
     collection(name){
@@ -146,8 +147,8 @@ export class Firestore{
     }
 
     storage(){
-        if (this.storage!=null)
-        return new storage_(this.storage)
+        if (this.stor!=null)
+        return new storage_(this.stor)
     }
     
 

@@ -258,7 +258,7 @@
     margin-right: 10px;
 }
 
-#contextmenuFolder{
+#contextmenuFolder, #contextmenuImage{
     display: none;
     background-color: #fff;
     box-shadow: 2px 3px 25px 0px rgba(31,38,67,0.5);
@@ -267,7 +267,7 @@
     width: max-content;
     padding: 10px 0px;
 }
-#contextmenuFolder li{
+#contextmenuFolder li, #contextmenuImage li{
     display: flex;
     align-items: center;
     padding: 5px 20px;
@@ -276,11 +276,11 @@
 
 }
 
-#contextmenuFolder li i{
+#contextmenuFolder li i,   #contextmenuImage li i{
     margin-right: 10px;
 }
   
-#contextmenuFolder li:hover{
+#contextmenuFolder li:hover , #contextmenuImage li:hover{
     background-color: rgba(31,38,67,0.1);
 }
 
@@ -305,12 +305,23 @@
     display: none;
 }
 
-.bgImage .close{
+.bgImage .groupButtonBg{
     color: #ffffff;
     position: absolute;
     top: 20px;
-    right: 20px;
     cursor: pointer;
+}
+
+.bgImage .close{
+    right: 20px;
+}
+
+.bgImage .download{
+    right: 60px;
+}
+
+.bgImage .sourceImage{
+    right: 100px;
 }
 
 .bgImage img{

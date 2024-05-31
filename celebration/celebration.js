@@ -381,7 +381,6 @@ this.start = function() {
   this.update();
 }
 this.stop = function() {
-  console.log(123);
   cAF(this.interval);
 }
 this.update = function() {
@@ -423,7 +422,7 @@ createMain(f_restart = ()=>{}){
   restart.className = "fa-solid fa-arrow-rotate-left restart"
   restart.onclick = function(){
     document.body.removeChild(document.getElementById("confetti"))
-    document.body.removeChild(style)
+    document.body.removeChild(menu)
     f_restart();
     
   }
