@@ -369,6 +369,7 @@ let startX,startY = 0;
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
   //console.log("You are using a mobile device");
+  document.getElementById("turnName").innerHTML = "hii"
   device="mobile"
   scrollableElement.addEventListener('touchstart', (event) => {
     isDragging = true;
