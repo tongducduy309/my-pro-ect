@@ -393,10 +393,10 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAg
         startY = touch.clientY;
     }
   });
-  document.getElementById('information').display='none'
+  document.getElementById('information').style.display='none'
   let desktop_views = document.querySelectorAll(".desktop-view")
   desktop_views.forEach(v=>{
-    v.display = 'none'
+    v.style.display = 'none'
   })
 } else {
   //console.log("You are using a desktop device");
