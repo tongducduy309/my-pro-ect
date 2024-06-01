@@ -92,9 +92,17 @@ function createBoard(){
                     // if (turn==mark)
                     if(td.className.indexOf("tick_x")==-1&&td.className.indexOf("tick_o")==-1){
                         td.classList.add(`tick_${turn}`)
-                        let value = {}
-                        value[`turn_${t}`]=`${cls}--${turn}`
-                        turn =  (turn=='x')?"o":"x"
+                        
+                        // let value = {}
+                        // value[`turn_${t}`]=`${cls}--${turn}`
+                        if (turn=='x'){
+                            td.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+                            turn='o'
+                        }
+                        else{
+                            td.innerHTML = '<i class="fa-solid fa-o"></i>'
+                            turn = 'x'
+                        }
                         cells[`r${i}_c${j}`]=turn
                         if (checkWinner(i,j)) {
                             console.log('Win');
@@ -369,7 +377,6 @@ let startX,startY = 0;
 
 if (/mobile/i.test(userAgent)) {
   //console.log("You are using a mobile device");
-  document.getElementById("turnName").innerHTML = "hii"
   device="mobile"
   scrollableElement.addEventListener('touchstart', (event) => {
     isDragging = true;
@@ -394,11 +401,7 @@ if (/mobile/i.test(userAgent)) {
         startY = touch.clientY;
     }
   });
-  document.getElementById('information').style.display='none'
-  let desktop_views = document.querySelectorAll(".desktop-view")
-  desktop_views.forEach(v=>{
-    v.style.display = 'none'
-  })
+
 } else {
   //console.log("You are using a desktop device");
   device="desktop"

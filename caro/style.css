@@ -94,16 +94,21 @@ table{
     margin: 0;
     cursor: pointer;
     user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .tick_x{
     position: relative;
+    color: #c92a2a;
 }
 .tick_o{
     position: relative;
+    color: #000;
 }
 
-table .tick_x:after {
+/* table .tick_x:after {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -117,7 +122,8 @@ table .tick_o:after {
     left: 50%;
     transform: translate(-50%,-50%);
     content: "\1F787";
-}
+} */
+
 
 #board tr{
     display: flex;
@@ -364,7 +370,12 @@ table .tick_o:after {
         height: 40px !important;
         width: 40px !important;
     }
-    
+    #information{
+        display: none;
+    }
+    .desktop-view{
+        display: none;
+    }
 }
 
 /* Màn hình desktop */
