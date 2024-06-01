@@ -78,6 +78,8 @@ function createBoard(){
     turn = 'x'
     mark = 'x'
     cells = {}
+    let turn_view = document.querySelector('.turn-view');
+    turn_view.innerHTML = '<i class="fa-solid fa-xmark"></i>'
     for (let i=0;i<h;i++){
         const tr = document.createElement("tr")
         for (let j=0;j<w;j++){
@@ -98,10 +100,12 @@ function createBoard(){
                         if (turn=='x'){
                             td.innerHTML = '<i class="fa-solid fa-xmark"></i>'
                             turn='o'
+                            turn_view.innerHTML = '<i class="fa-solid fa-o"></i>'
                         }
                         else{
                             td.innerHTML = '<i class="fa-solid fa-o"></i>'
                             turn = 'x'
+                            turn_view.innerHTML = '<i class="fa-solid fa-xmark"></i>'
                         }
                         cells[`r${i}_c${j}`]=turn
                         if (checkWinner(i,j)) {
