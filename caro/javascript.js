@@ -19,6 +19,11 @@ let nameRoom=null
 
 let turn, t = 0, mark, timeInterval, cells = {},running=true;
 let table = {}
+// block: Chặn 2 đầu 0-Không chặn, 2-Chặn
+let settings = {
+    block:2,
+    off_online:'off'
+}
 
 // let ip = await getIPAddress();
 
@@ -38,11 +43,23 @@ function checkWinner(i,j){
     let [r_1,r_2] = [i,i]
     while (cells[`r${r_1}_c${j}`]&&cells[`r${r_1}_c${j}`]==turn) r_1--;
     while (cells[`r${r_2}_c${j}`]&&cells[`r${r_2}_c${j}`]==turn) r_2++;
+    if(settings.block==2){
+        if (cells[`r${r_1}_c${j}`]&&cells[`r${r_1}_c${j}`]!=turn&&cells[`r${r_2}_c${j}`]&&cells[`r${r_2}_c${j}`]!=turn) {
+            r_1++;
+            r_2--;
+        }
+    }
     if (r_2-r_1-1>=5) return true
 
     let [c_1,c_2] = [j,j]
     while (cells[`r${i}_c${c_1}`]&&cells[`r${i}_c${c_1}`]==turn) c_1--;
     while (cells[`r${i}_c${c_2}`]&&cells[`r${i}_c${c_2}`]==turn) c_2++;
+    if(settings.block==2){
+        if (cells[`r${i}_c${c_1}`]&&cells[`r${i}_c${c_1}`]!=turn&&cells[`r${i}_c${c_2}`]&&cells[`r${i}_c${c_2}`]!=turn) {
+            c_1++;
+            c_2--;
+        }
+    }
     if (c_2-c_1-1>=5) return true;
 
 
@@ -54,6 +71,14 @@ function checkWinner(i,j){
     while (cells[`r${r_4}_c${c_4}`]&&cells[`r${r_4}_c${c_4}`]==turn){
         c_4++;
         r_4++;
+    }
+    if(settings.block==2){
+        if (cells[`r${r_3}_c${c_3}`]&&cells[`r${r_3}_c${c_3}`]!=turn&&cells[`r${r_4}_c${c_4}`]&&cells[`r${r_4}_c${c_4}`]!=turn) {
+            r_3++;
+            c_3++;
+            c_4--;
+            r_4--;
+        }
     }
     if ((r_4-r_3)==6&&(r_4-r_3)==(c_4-c_3)) return true;
 
@@ -67,6 +92,14 @@ function checkWinner(i,j){
         c_6--;
         r_6++;
     }
+    if(settings.block==2){
+        if (cells[`r${r_5}_c${c_5}`]&&cells[`r${r_5}_c${c_5}`]!=turn&&cells[`r${r_6}_c${c_6}`]&&cells[`r${r_6}_c${c_6}`]!=turn) {
+            r_5++;
+            c_5--;
+            c_6++;
+            r_6--;
+        }
+    }
     if ((r_6-r_5)==6&&(r_6-r_5)==(c_5-c_6)) return true;
     
 
@@ -75,11 +108,10 @@ function checkWinner(i,j){
 
 function createBoard(){
     board.innerHTML = ''
-    turn = 'x'
-    mark = 'x'
-    cells = {}
+    
+    // mark = 'x'
+    
     let turn_view = document.querySelector('.turn-view');
-    turn_view.innerHTML = '<i class="fa-solid fa-xmark"></i>'
     for (let i=0;i<h;i++){
         const tr = document.createElement("tr")
         for (let j=0;j<w;j++){
@@ -97,6 +129,7 @@ function createBoard(){
                         
                         // let value = {}
                         // value[`turn_${t}`]=`${cls}--${turn}`
+                        cells[`r${i}_c${j}`]=turn
                         if (turn=='x'){
                             td.innerHTML = '<i class="fa-solid fa-xmark"></i>'
                             turn='o'
@@ -107,7 +140,9 @@ function createBoard(){
                             turn = 'x'
                             turn_view.innerHTML = '<i class="fa-solid fa-xmark"></i>'
                         }
-                        cells[`r${i}_c${j}`]=turn
+                        
+                        cells['turn']=turn
+                        localStorage.setItem('caro-cells', JSON.stringify(cells));
                         if (checkWinner(i,j)) {
                             console.log('Win');
                             cel.start(restart);
@@ -124,7 +159,47 @@ function createBoard(){
     }
 }
 
-createBoard()
+
+function loadData(){
+    createBoard()
+    cells = localStorage.getItem("caro-cells");
+    turn = 'x'
+    let turn_view = document.querySelector('.turn-view');
+    turn_view.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+    if (cells){
+        cells = JSON.parse(cells)
+        console.log(cells);
+        
+        Object.keys(cells).forEach(c=>{
+            if(c!='turn'){
+                const td = document.querySelector(`.${c}`)
+                turn = cells[c]
+                td.classList.add(`tick_${turn}`)
+                
+                if (turn=='x'){
+                    td.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+                }
+                else{
+                    td.innerHTML = '<i class="fa-solid fa-o"></i>'
+                }
+            }
+        })
+        turn=cells['turn']
+        if (turn=='x'){
+            turn_view.innerHTML = '<i class="fa-solid fa-xmark"></i>'
+        }
+        else{
+            turn_view.innerHTML = '<i class="fa-solid fa-o"></i>'
+        }
+    }
+    else
+    {
+        cells={}
+        turn='x'
+    }
+    
+}
+loadData()
 
 
 
@@ -447,7 +522,8 @@ document.querySelector(".restart").addEventListener("click",async ()=>{
 
 async function restart(){
     // 
-    createBoard()
+    localStorage.removeItem('caro-cells');
+    loadData()
     createAlert("Bắt đầu ván mới!!!")
     running=true;
 }

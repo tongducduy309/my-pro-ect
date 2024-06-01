@@ -472,6 +472,7 @@ html, body {
   top: 0;
   height: 100%;
   width: 100%;
+  index:1000;
 }
 
 .restart{
