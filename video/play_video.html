@@ -70,17 +70,10 @@
                 link = epsi.link[episode-1]
                 episodeTitle=` - TẬP ${episode}` 
             }
-            main.innerHTML = `<iframe src="https://drive.google.com/file/d/${link}/preview" 
-                width="640" height="480" 
-                id="iframe"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                webkitallowfullscreen 
-                mozallowfullscreen
-                allowvr="true" 
-                allowfullscreen="true"
-                frameborder="0"
-                class="video"></iframe>
-                <div class="title">
+            main.innerHTML = `<video width="640" height="480" controls>
+  <source src="https://mega.nz/file/0CtQVAiJ#ZO97T94YT_cJ2t0kAEzQNLd99h9Kh6lWmXNWOnAHl34" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
                     <span>${title + episodeTitle}</span>
 
                     </div>`

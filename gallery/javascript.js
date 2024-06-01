@@ -15,6 +15,8 @@ let listImage = {};
 
 
 
+
+
 const fs = new Firestore({
     apiKey: "AIzaSyCcSciNlWNlwcx52vaYjBtThmpCWQMEZ3E",
     authDomain: "local1-19885.firebaseapp.com",

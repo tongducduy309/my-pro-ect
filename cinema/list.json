@@ -1,117 +1,12 @@
 
 [
-    {
-        "title":"BỐ GIÀ",
-        "type":0,
-        "link":"1oGl6BL6_u3sGIXFW5It4SBoH3oUfaJ2K",
-        "id":"1Sc_iSXwbGk6LmBAWYVxcDuQ_jJyMmpTH"
-    },
-    {
-        "title":"NHÀ BÀ NỮ",
-        "type":0,
-        "link":"1TwYmvg0Eb1RrnGPRD89mDhvThtpA_VJE",
-        "id":"15eES8cotOKUjLB5uj_UcP5aLWV1lkvC2"
-    },
-    {
-        "title":"SIÊU LỪA GẶP SIÊU LẦY",
-        "type":0,
-        "link":"1Kd5zVKKbXy8AOTkt-8nynfKG2MMSyeuZ",
-        "id":"1innnhxgx-TfHjJfCx0SzmP9GqT_HRVty"
-    },
-    {
-        "title":"CON NHÓT MÓT CHỒNG",
-        "type":0,
-        "link":"1iOV1eMAXDrFtxWTYWbJ1WLuTykbenGu5",
-        "id":"1_UDD1YfCbjLD70LBZLdM6uQY1dp8JrMS"
-    },
-    {
-        "title":"GÁI GIÀ LẮM CHIÊU 5",
-        "type":0,
-        "link":"1Q_KuEiYdgabRuLWcqaOVYRO7AFJnfZ3k",
-        "id":"1_CW8I6Xe6DDxHFwIRwfkeDrIQHUYqGFr"
-    },
-    {
-        "title":"HẠNH PHÚC MÁU",
-        "type":0,
-        "link":"1_PbTIJWuIts2V3aiSqWwr0aLYNEo2lcR",
-        "id":"1EDphj5oU-_cY8vnWX4ZPotRpKYIg3nJk"
-    },
-    {
-        "title":"MẮT BIẾC",
-        "type":0,
-        "link":"14Tn3i0-MVS7JRR394BS_jRoGyOjzkj6E",
-        "id":"1HhBdM_ySDpWx-QkWGXgRbPOOZt1BYFeR"
-    },
-    {
-        "title":"TRẠNG TÍ",
-        "type":0,
-        "link":"1VmwnE6i0xZ0jGcp_CceRhQE4KGUx0w95",
-        "id":"1Ym4GKYhVUJRuLIJqm_KGOvgfsVXivDfY"
-    },
-    {
-        "title":"MƯỜI: LỜI NGUYỀN TRỞ LẠI",
-        "type":0,
-        "link":"1q3ZNEz7xcYdMLm-SxDW9MqZ16F9yUHIa",
-        "id":"18O8dgexXTCeQGHKaR5gPeHVN39L0mlNU"
-    },
-    {
-        "title":"TRỊNH CÔNG SƠN",
-        "type":0,
-        "link":"1KWkWqCTPOB7rk5yiDi7JB3nVFHYb0PMf",
-        "id":"1vilAkVAszBz8DTpQHHwfY5JjWDlt_Bmd"
-    },
-    {
-        "title":"CHỊ CHỊ EM EM 2",
-        "type":0,
-        "link":"1yaQz9Meij8v7F-MM8Q1e2zFEubV9NSjE",
-        "id":"14VkRMZqTph5sXz-P2PjJnXcY1LqWynOZ"
-    },
-    {
-        "title":"LẬT MẶT 6: TẤM VÉ ĐỊNH MỆNH",
-        "type":0,
-        "link":"1NJcgzwXqoR4TEzAshfO1GO_QNzehp5so",
-        "id":"11Br9wjVEL3CP5FNUUjEzRQ8rNjPBr74B"
-    },
-    {
-        "title":"DÂN CHƠI KHÔNG SỢ CON RƠI",
-        "type":0,
-        "link":"18sM3ebtBjGTQ3kSFEhHPYl62MKt2COze",
-        "id":"1dct44UKS98QA6siFB7ejzbF-d9Cr47pG"
-    },
+    
     {
         "title":"KẺ ĐÁNH CẮP MẶT TRĂNG 4: SỰ TRỖI DẬY CỦA GRU",
         "type":0,
         "link":"1LiZSS9rsbUwgFbCSaExGxR0o2XpmWfe6",
-        "id":"1pE29H-25leFqFO5drox2Vx1B1GPJpJj_"
-    },
-    {
-        "title":"BỖNG DƯNG TRÚNG SỐ",
-        "type":0,
-        "link":"1ue8pNxbIWxZXHe-oxgJ8JJy6HwD-uIAg",
-        "id":"1QLkqAa53aIzFoPRStWtDwk8-a0HQmjbB"
-    },
-    {
-        "title":"DOREMON - NOBITA CUỘC CHIẾN VŨ TRỤ TÍ HON",
-        "type":0,
-        "link":"1vKxxby5oePMriLYy297YygfGK5hr6F9l",
-        "id":"1NKguSWdTwnOcYPfR5I5fSyI8GPw_l3XI"
-    },
-    {
-        "title":"CÔ NÀNG MẠNH MẼ GANG NAM SOON",
-        "type":1,
-        "link":["1vKxxby5oePMriLYy297YygfGK5hr6F9l","1ue8pNxbIWxZXHe-oxgJ8JJy6HwD-uIAg","1LiZSS9rsbUwgFbCSaExGxR0o2XpmWfe6"],
-        "id":"1a3c81yEtCjDvofJmDHOIUzLCmSDuam40"
-    },
-    {
-        "title":"ĐẢO ĐỘNG ĐẮC: TỬ MẪU THIÊN LINH CÁI",
-        "type":0,
-        "link":"1MgEj02sOoUBMBQ9638GMwp5mOz2NYKlw",
-        "id":"1KrgW7_8Jkw_nMmXB1dLuMXm93IgJ7i8j"
-    },
-    {
-        "title":"GÁI GIÀ LẮM CHIÊU 3",
-        "type":0,
-        "link":"1OVxplZpbBRjtmAe1CrmSnsYIJ6NR3BjP",
-        "id":"1KrgW7_8Jkw_nMmXB1dLuMXm93IgJ7i8j"
+        "id":"1pE29H-25leFqFO5drox2Vx1B1GPJpJj_",
+        "poster":"JbMAVYzA#XoLHjQjG0wqe0XfTobepdBhssJw7VEXs-OWhzuLMXVI"
     }
+    
 ]

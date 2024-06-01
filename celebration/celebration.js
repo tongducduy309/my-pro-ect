@@ -479,17 +479,6 @@ html, body {
   cursor: pointer;
 }
 
-/* Màn hình Mobile */
-@media screen and (max-width:767px) {
-    .menu{
-      width:300px
-    }
-    html, body {
-      height: 100vh;
-      width:100vw;
-      
-    }
-}
 
 `
 
