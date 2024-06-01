@@ -479,6 +479,27 @@ html, body {
   cursor: pointer;
 }
 
+/* Màn hình Mobile */
+@media screen and (max-width:767px) {
+  .menu{
+    width: 300px;
+    height: 150px;
+    background-color: #53535366;
+    border-radius: 20px;
+    position: absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    color:#ffffff;
+    user-select: none;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+}
+
 
 `
 
