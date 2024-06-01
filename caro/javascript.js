@@ -457,29 +457,29 @@ let startX,startY = 0;
 if (/mobile/i.test(userAgent)) {
   //console.log("You are using a mobile device");
   device="mobile"
-  scrollableElement.addEventListener('touchstart', (event) => {
-    isDragging = true;
-    const touch = event.touches[0];
-    startX = touch.clientX;
-    startY = touch.clientY;
-  });
+//   scrollableElement.addEventListener('touchstart', (event) => {
+//     isDragging = true;
+//     const touch = event.touches[0];
+//     startX = touch.clientX;
+//     startY = touch.clientY;
+//   });
   
-  scrollableElement.addEventListener('touchend', () => {
-    isDragging = false;
-  });
+//   scrollableElement.addEventListener('touchend', () => {
+//     isDragging = false;
+//   });
   
-  scrollableElement.addEventListener('touchmove', (event) => {
+//   scrollableElement.addEventListener('touchmove', (event) => {
       
-    if (isDragging && running) {
-        const touch = event.touches[0];
-        const deltaX = touch.clientX - startX;
-        const deltaY = touch.clientY - startY;
-        document.documentElement.scrollLeft += -deltaX;
-        document.documentElement.scrollTop += -deltaY;
-        startX = touch.clientX;
-        startY = touch.clientY;
-    }
-  });
+//     if (isDragging && running) {
+//         const touch = event.touches[0];
+//         const deltaX = touch.clientX - startX;
+//         const deltaY = touch.clientY - startY;
+//         document.documentElement.scrollLeft += -deltaX;
+//         document.documentElement.scrollTop += -deltaY;
+//         startX = touch.clientX;
+//         startY = touch.clientY;
+//     }
+//   });
 
 } else {
   //console.log("You are using a desktop device");
@@ -489,27 +489,27 @@ if (/mobile/i.test(userAgent)) {
 
 //Desktop
 
-scrollableElement.addEventListener('mousedown', (event) => {
-  isDragging = true;
-  startX = event.clientX;
-  startY = event.clientY;
-});
-
-scrollableElement.addEventListener('mouseup', () => {
-  isDragging = false;
-});
-
-scrollableElement.addEventListener('mousemove', (event) => {
-    
-  if (isDragging && running) {
-    const deltaX = event.clientX - startX;
-    const deltaY = event.clientY - startY;
-    document.documentElement.scrollLeft += -deltaX;
-    document.documentElement.scrollTop += -deltaY;
+    scrollableElement.addEventListener('mousedown', (event) => {
+    isDragging = true;
     startX = event.clientX;
     startY = event.clientY;
-  }
-});
+    });
+
+    scrollableElement.addEventListener('mouseup', () => {
+    isDragging = false;
+    });
+
+    scrollableElement.addEventListener('mousemove', (event) => {
+        
+    if (isDragging && running) {
+        const deltaX = event.clientX - startX;
+        const deltaY = event.clientY - startY;
+        document.documentElement.scrollLeft += -deltaX;
+        document.documentElement.scrollTop += -deltaY;
+        startX = event.clientX;
+        startY = event.clientY;
+    }
+    });
 }
 
 document.querySelector(".joinRoom").addEventListener("click",()=>{
