@@ -367,7 +367,7 @@ const scrollableElement = document.body;
 let isDragging = false;
 let startX,startY = 0;
 
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+if (/mobile/i.test(userAgent)) {
   //console.log("You are using a mobile device");
   document.getElementById("turnName").innerHTML = "hii"
   device="mobile"
