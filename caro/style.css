@@ -396,6 +396,10 @@ table .tick_o:after {
     .desktop-view{
         display: none;
     }
+    body{
+        overflow: auto;
+        scroll-behavior: smooth;
+    }
 }
 
 /* Màn hình desktop */
