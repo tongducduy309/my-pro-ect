@@ -1,156 +1,149 @@
-function drawPercentInCircle(ctx,radius,color,start,per){
-  
-  ctx.beginPath();
-  ctx.fillStyle = color;
-  ctx.moveTo(0, 0);
-  ctx.arc(0, 0,radius,0,per,true);
-  ctx.fill()
-  
-}
-
-function addText(ctx,content,color,rotate,r){
-  ctx.rotate(r)
-  ctx.fillStyle = color;
-  ctx.fillText(content, rotate, 0);
-  ctx.rotate(-r)
-}
-
-const colors = ["#3369e8","#d50f25","#eeb211","#009925","#26a69a"]
 
 
+// const colors = ["#3369e8","#d50f25","#eeb211","#009925","#26a69a"]
+
+/* --------------- Spin Wheel  --------------------- */
+const spinWheel = document.getElementById("spinWheel");
+const text = document.getElementById("text");
+const spinBtn = document.getElementById('spin_btn');
+const bgSpinBtn = document.querySelector('.bg_spin_btn');
+
+/* --------------- Minimum And Maximum Angle For A value  --------------------- */
+let spinValues;
+/* --------------- Size Of Each Piece  --------------------- */
+
+/* --------------- Background Colors  --------------------- */
 
 
-const canvas = document.getElementById('my-canvas');
+let spinChart=null; 
 
-let side = 0;
-
-function draw(x,y,radius, users){
-  
-  
-  const ctx = canvas.getContext('2d');
-  if (users.length>0)
-  {
-    ctx.translate(-x,-y);
-    ctx.moveTo(0,0);
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, x*2, y*2);
-  }
-  
-
-  //Bóng
-  ctx.shadowColor = '#c7c7c8'; // Màu sắc của bóng
-  ctx.shadowOffsetX = 0; // Khoảng cách bóng theo trục x
-  ctx.shadowOffsetY = 0;
-  ctx.font = '20px Arial';
-  ctx.textAlign = 'right';
-  
-
-   // Khoảng cách bóng theo trục y
-
-  ctx.beginPath();
-  ctx.shadowBlur = 20;
-  ctx.arc(x, y, radius, 0 , Math.PI * 2);
-  ctx.fillStyle = '#bcbcbc';
-  ctx.closePath();
-  ctx.fill();
-  ctx.shadowBlur = 0;
-
-  const l = Math.PI*2/users.length;
-  side=l*180/Math.PI;
-  const r = -l/2
-
-  ctx.translate(x,y);
-  
-  for (let i=0;i<users.length;i++){
-    let c = (i%4==0&&i==users.length-1)?4:i%4;
-    drawPercentInCircle(ctx,radius,colors[c],0,Math.PI*2-l)
-    addText(ctx,users[i],"#ffffff",radius-30,r)
-    ctx.rotate(-l)
+function draw(users){
+  let spinColors = ["#2b580c","#afa939","#f7b71d","#fdef96"]
+  spinValues = []
+  let i=0, step = 360/users.length, j=0
+  // console.log(step);
+  // console.log(users);
+  let size = [];
+  for (u of users){
+    let g= { index:j, minDegree: i, maxDegree:i+step, value: u , color: spinColors[j++]}
+    if(i>0) g.minDegree+=1
+    if (j==4) j=0
+    spinValues.push(g)
     
+      
+    size.push(10)
+    i+=step
+  } 
+  // console.log(size);
+  // console.log(spinValues);
+  if (spinChart!=null)
+  {
+    spinChart.destroy()
   }
-
-  //Vẽ vòng tròn trắng ở giữa
+  spinChart = new Chart(spinWheel, {
+    plugins: [ChartDataLabels],
+    type: "pie",
+    data: {
+      labels: users,
+      datasets: [
+        {
+          backgroundColor: spinColors,
+          data: size,
+        },
+      ],
+    },
+    options: {
+      animation: { duration: 0 },
+      plugins: {
+        tooltip: false,
+        legend: {
+          display: false,
+        },
+        datalabels: {
+          rotation: 0,
+          color: "#ffffff",
+          formatter: (_, context) => context.chart.data.labels[context.dataIndex],
+          font: { size: 24 },
+          anchor: 'end', // Position labels at the end of arcs
+          align: 'start', // Align labels to the start of the arc
+          distance: 0
+        },
+      },
+      elements: {
+        arc: {
+          borderWidth: 0 // Set borderWidth to 0 to remove the border
+        }
+      }
+    },
+  });
   
-  ctx.beginPath();
-  ctx.arc(0, 0, radius_, 0, 2 * Math.PI);
-  ctx.fillStyle = '#ffffff';
-  ctx.fill();
-
-
-
+  
 }
 
+draw(["Yes","No","Yes","No","Yes","No"])
 
-
-function random(min=0,max=1){
-  return Math.floor((Math.random() * (max-min+1)) + min);
-}
 
 const audio = new Audio("./random/sound.mp3");
 
 let running = false,j=0;
 
-function turn_wheel(){
-  if (!running && users.length>0){
-    //canvas.classList.add("turn_wheel")
-    running=true;
-    input.disabled = true;
-    derange.setAttribute("disabled",true);
-    sort.setAttribute("disabled",true);
-    let i=0,turn=0,speed=20,c=2000,time=random(5000,10000);
-    if (time<9000) speed = 18
-    if (time<7000) speed = 14
-    if (time<6000) speed = 12
-    c=parseInt((10000-time)/1000)
-    const loop = setInterval(()=>{
-      if (i>=360)i-=360;
-      canvas.style.transform=`rotate(${i}deg)`;
-      i+=speed
-      j+=speed
-      if (j>=side){
-        audio.play();
-        j=0
-      }
-      if(turn>200&&(turn+c)%50==0&&speed>2) speed-=2;
-      if (turn==(time/10)-20) speed=1
-      if (turn==(time/10)-10) speed=0.5
-      turn++;
-    },10)
-    setTimeout(()=>{
-      clearInterval(loop);
-      running=false;
-      result();
-      input.disabled = false;
-      derange.setAttribute("disabled",false);
-      sort.setAttribute("disabled",false);
-    },time)
+
+const generateValue = (angleValue) => {
+  angleValue=450-angleValue
+  if (angleValue>=360)angleValue=angleValue-360
+  console.log(spinValues,angleValue);
+  for (let i of spinValues) {
+    if (angleValue >= i.minDegree && angleValue <= i.maxDegree) {
+      spinBtn.disabled = false;
+      bgSpinBtn.style.animation='zoom-in-out 0.6s 0.5s infinite ease-in alternate'
+      result(i,i.value,i.color)
+      break;
+    }
   }
-}
-canvas.addEventListener("click",()=>{
-  if (count.value>0)  count.value--;
+};
+/* --------------- Spinning Code --------------------- */
+let resultValue = 101;
+let c = 0
+spinBtn.addEventListener("click", () => {
   turn_wheel()
-})
+});
+
+function turn_wheel(){
+  spinBtn.disabled = true;
+  bgSpinBtn.style.animation='none'
+  console.log("Rotate: "+spinChart.options.rotation);
+  let randomDegree = Math.floor(Math.random() * (355 - 0 + 1) + 0);
+
+  let rotationInterval = window.setInterval(() => {
+    spinChart.options.rotation = spinChart.options.rotation + resultValue;
+    spinChart.update();
+    if (spinChart.options.rotation >= 360) {
+      c += 1;
+      resultValue -= 5;
+      spinChart.options.rotation = 0;
+    } else if (c > 15 && spinChart.options.rotation == randomDegree) {
+      generateValue(randomDegree);
+      clearInterval(rotationInterval);
+      c = 0;
+      resultValue = 101;
+    }
+  }, 10);
+}
 
 
-function result(){
+function result(res){
   
-  const match = canvas.style.transform.match(/rotate\((.*?deg)\)/)
-  let deg = match ? parseFloat(match[1]) : 0;
-  while (deg>=360)deg-=360;
-  let index=parseInt(deg/(360/users.length))
   const div = document.createElement("div")
-  div.innerHTML = users[index];
+  div.innerHTML = res.value;
   rs.appendChild(div)
   if(count.value.trim().length>0&&count.value>=0) 
   {
     if (auto_delete.checked){
       users=input.value.split('\n');
-      users.splice(index,1)
+      users.splice(res.index,1)
       input.value = users.join("\n");
       
-      draw(cx,cy,radius,users);
     }
-    console.log(index);
   }
   if(count.value>0){
     count.value--;
@@ -163,18 +156,17 @@ function result(){
   }
   else
     {
-      if(count.value.trim()=="")
       showDialog({
-        name:users[index],
-        index:index,
-        color:'#006eff'
+        name:res.value,
+        index:res.index,
+        color:res.color
       })
       if (auto_delete.checked){
         users=input.value.split('\n');
-        users.splice(index,1)
+        users.splice(res.index,1)
         input.value = users.join("\n");
         
-        draw(cx,cy,radius,users);
+        draw(users);
       }
       if (count.value==0) count.value=""
     }
@@ -201,7 +193,7 @@ function showDialog(value={
 
   const header = document.createElement("div");
   header.className="header";
-  header.innerHTML=`<span>WINNER</span>`
+  header.innerHTML=`<span>KẾT QUẢ</span>`
   header.style.backgroundColor = value.color;
 
   const content = document.createElement("div");
@@ -272,7 +264,7 @@ const rs = document.querySelector(".result .main-result")
 input.addEventListener("input",()=>{
   if (!running){
     users = input.value.split('\n');
-    draw(cx,cy,radius,users);
+    draw(users)
   }
   
 })
@@ -284,7 +276,7 @@ derange.addEventListener("click",()=>{
     users=input.value.split('\n');
     users.sort(() => Math.random() - 0.5);
     input.value = users.join("\n");
-    draw(cx,cy,radius,users);
+    draw(users);
   }
 })
 
@@ -297,7 +289,7 @@ sort.addEventListener("click",()=>{
     if (desc) users.reverse();
     desc=!desc
     input.value = users.join("\n");
-    draw(cx,cy,radius,users);
+    draw(users);
   }
 })
 
@@ -333,8 +325,8 @@ let radius=250,radius_=50,cx=300,cy=300,device;
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
   //console.log("You are using a mobile device");
   radius=(screen.width-50)/2;
-  canvas.height=screen.width
-  canvas.width=screen.width
+  spinWheel.height=screen.width
+  spinWheel.width=screen.width
   cx=screen.width/2
   cy=screen.width/2
   radius_=25
@@ -348,11 +340,3 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAg
   document.querySelector(".main .content").style.height = window.innerHeight-document.querySelector(".main .title").getBoundingClientRect().height+"px"
   device="desktop"
 }
-
-const target = document.getElementById("target")
-
-target.style.left = (radius*2+(cx-radius)-target.getBoundingClientRect().width/2)+"px"
-target.style.top = cy-target.getBoundingClientRect().width/2+"px"
-console.log(target.getBoundingClientRect().width);
-
-draw(cx,cy,radius,users);
