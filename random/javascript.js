@@ -353,13 +353,15 @@ let device;
 
 if (/mobile/i.test(userAgent)) {
   //console.log("You are using a mobile device");
-  spinWheel.style.height=screen.width+"px"
-  spinWheel.style.width=screen.width+"px"
+  spinWheel.style.height=screen.width+"px !important"
+  spinWheel.style.width=screen.width+"px !important"
   document.querySelector(".main").style.height = document.querySelector(".main .title")+screen.width+"px"
   device="mobile"
 } else {
   //console.log("You are using a desktop device");
-  
+  spinWheel.style.height=screen.width+"px !important"
+  spinWheel.style.width=screen.width+"px !important"
+  console.log(screen.width);
   document.querySelector(".main .content").style.height = window.innerHeight-document.querySelector(".main .title").getBoundingClientRect().height+"px"
   device="desktop"
 }

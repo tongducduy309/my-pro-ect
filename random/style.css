@@ -244,6 +244,7 @@ body{
     padding: 10px 20px;
     border-radius: 5px;
     margin-right: 10px;
+    font-size: 0.7rem;
     cursor: pointer;
     user-select: none;
     background-color: #006eff;
@@ -323,18 +324,8 @@ label[for="auto_delete"]{
 
 /* Màn hình Mobile */
 @media screen and (max-width:767px) {
-    .main{
-        display: flex;
-        flex-direction: column;
-    }
-    .main .wheel{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
     #spinWheel{
         margin-top: 20px;
-        
     }
     .options{
         font-size: 12px;
@@ -348,6 +339,7 @@ label[for="auto_delete"]{
         transform: translateX(-50%);
         text-align: center;
     }
+
 
     .options textarea{
         width: 90%;
