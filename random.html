@@ -15,6 +15,10 @@
     
     <div class="main">
         <div class="wheel">
+            <div class="btn mobile-view">
+                <i class="fa-regular fa-pen-to-square btn-edit-input"></i>
+                <i class="fa-solid fa-clock-rotate-left btn-result"></i>
+            </div>
             <div class="title">
                 <h1 style="text-align: center;">NGẪU NHIÊN</h1>
             </div>
@@ -29,19 +33,24 @@
             </div>
         </div>
         <div class="options">
-            <div class="btns">
-                <div class="btn derange"><i class="fa-solid fa-code-compare"></i> Đảo</div>
-                <div class="btn sort"><i class="fa-solid fa-arrow-up-wide-short"></i> Sắp xếp</div>
-                <input type="checkbox" value="" id="auto_delete">
-                <label for="auto_delete">Tự động xóa</label>
-                <input type="number" class="count" placeholder="Số lượt" min="1">
+            <div style="width: 100%;min-height: 40px;">
+                <i class="fa-solid fa-circle-xmark close-options"></i>
             </div>
-            <textarea id="input" cols="30" rows="10" placeholder="Lựa chọn 1
-Lựa chọn 2
-..."></textarea>
+            <div class="editInput">
+                <div class="btns">
+                    <div class="btn derange">Đảo</div>
+                    <div class="btn sort">Sắp xếp</div>
+                    <input type="checkbox" value="" id="auto_delete">
+                    <label for="auto_delete">Tự động xóa</label>
+                    <input type="number" class="count" placeholder="Số lượt" min="1">
+                </div>
+                <textarea id="input" cols="30" rows="10" placeholder="Lựa chọn 1
+    Lựa chọn 2
+    ..."></textarea>
+            </div>
             <div class="result">
                 <div class="header">
-                    <strong>KẾT QUẢ:</strong>
+                    <strong style="color: #fff;">KẾT QUẢ:</strong>
                     <div class="btn delete-result">Xóa kết quả</div>
                 </div>
                 <div class="main-result">

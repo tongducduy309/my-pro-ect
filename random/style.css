@@ -3,6 +3,11 @@
     font-weight: 500;
   }
 
+body{
+    overflow: hidden;
+    background: linear-gradient(68.2deg, rgb(7, 3, 98) -0.1%, rgb(179, 26, 132) 47.7%, rgb(239, 186, 83) 100.2%);
+}
+
 ::-webkit-scrollbar {
     display: block;
     width: 8px;
@@ -111,6 +116,14 @@
     
     flex-direction: column;
     height: 100%;
+}
+
+.options .close-options{
+    color: #fff;
+    font-size: 2rem;
+    float: right;
+    cursor: pointer;
+    z-index: 10;
 }
 
 .options .result{
@@ -228,13 +241,14 @@
 }
 
 .btns .btn{
-    background-color: #cccccc !important;
-    color: #000 !important;
     padding: 10px 20px;
     border-radius: 5px;
     margin-right: 10px;
     cursor: pointer;
     user-select: none;
+    background-color: #006eff;
+    color: #fff;
+    font-weight: 600;
 }
 
 .btns .btn[disabled=true]{
@@ -293,6 +307,19 @@ label[for="auto_delete"]{
     background-color: #006eff;
     color: #ffffff;
 }
+.wheel .btn{
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    z-index: 3;
+}
+
+.wheel .btn i{
+    cursor: pointer;
+    color: #fff;
+    font-size: 2rem;
+    margin-right: 20px;
+}
 
 /* Màn hình Mobile */
 @media screen and (max-width:767px) {
@@ -309,29 +336,29 @@ label[for="auto_delete"]{
         margin-top: 20px;
         
     }
-    #target{
-        width: 20px;
-        height: 20px;
-    }
-    .spinner{
-        position: relative;
-        top: 0;
-        left: 0;
-        transform: translate(0,0);
-        overflow: hidden !important;
-        
-    }
     .options{
         font-size: 12px;
+        display: none;
     }
 
-    .options .btn{
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+    .options .editInput{
+        position: absolute;
+        width: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
     }
+
+    .options textarea{
+        width: 90%;
+    }
+
     .main .title{
-        display: none;
+        color: #fff;
+    }
+
+    .spinner{
+        width: 35rem;
     }
 
     
@@ -339,8 +366,8 @@ label[for="auto_delete"]{
   
   /* Màn hình desktop */
   @media screen and (min-width:1024px) {
-    body{
-        overflow: hidden;
+    .mobile-view{
+        display: none;
     }
     
   }

@@ -7,6 +7,13 @@ const spinWheel = document.getElementById("spinWheel");
 const text = document.getElementById("text");
 const spinBtn = document.getElementById('spin_btn');
 const bgSpinBtn = document.querySelector('.bg_spin_btn');
+const btnEditInput = document.querySelector('.btn-edit-input');
+const btnResult = document.querySelector('.btn-result');
+const divWheel = document.querySelector('.wheel');
+const divOptions = document.querySelector('.options');
+const divEditInput = document.querySelector('.options .editInput');
+const divResult = document.querySelector('.options .result');
+const btnCloseOptions = document.querySelector('.options .close-options');
 
 /* --------------- Minimum And Maximum Angle For A value  --------------------- */
 let spinValues;
@@ -299,6 +306,28 @@ function checkCount(){
   if (count.value==0) count.value=""
 }
 
+btnEditInput.addEventListener("click",()=>{
+  divWheel.style.display='none'
+  divOptions.style.display='block'
+  divEditInput.style.display='block'
+  divResult.style.display='none'
+   
+})
+
+btnResult.addEventListener("click",()=>{
+  divWheel.style.display='none'
+  divOptions.style.display='block'
+  divEditInput.style.display='none'
+  divResult.style.display='block'
+   
+})
+
+btnCloseOptions.addEventListener("click",()=>{
+  divWheel.style.display='block'
+  divOptions.style.display='none'
+   
+})
+
 
 count.addEventListener("blur",()=>{
   checkCount()
@@ -320,22 +349,16 @@ let users = [];
 
 
 const userAgent = navigator.userAgent;
-let radius=250,radius_=50,cx=300,cy=300,device;
+let device;
 
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent)) {
+if (/mobile/i.test(userAgent)) {
   //console.log("You are using a mobile device");
-  radius=(screen.width-50)/2;
-  spinWheel.height=screen.width
-  spinWheel.width=screen.width
-  cx=screen.width/2
-  cy=screen.width/2
-  radius_=25
+  spinWheel.style.height=screen.width+"px"
+  spinWheel.style.width=screen.width+"px"
   document.querySelector(".main").style.height = document.querySelector(".main .title")+screen.width+"px"
   device="mobile"
 } else {
   //console.log("You are using a desktop device");
-  radius=250
-  radius_=50
   
   document.querySelector(".main .content").style.height = window.innerHeight-document.querySelector(".main .title").getBoundingClientRect().height+"px"
   device="desktop"
