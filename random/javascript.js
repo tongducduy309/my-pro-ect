@@ -353,8 +353,8 @@ let device;
 
 if (/mobile/i.test(userAgent)) {
   //console.log("You are using a mobile device");
-  spinWheel.style.height=screen.width+"px !important"
-  spinWheel.style.width=screen.width+"px !important"
+  // spinWheel.style.height=screen.width+"px !important"
+  // spinWheel.style.width=screen.width+"px !important"
   document.querySelector(".main").style.height = document.querySelector(".main .title")+screen.width+"px"
   device="mobile"
 } else {
