@@ -21,8 +21,20 @@
         "name":"Kho phim",
         "link":"./cinema.html",
         "type":"TOOLS",
-        "status":1
+        "status":0
     }, 
+    {
+        "name":"Website văn phòng phẩm",
+        "link":"gs://newapp-a6378.appspot.com/Web-project/New Clothes.zip",
+        "type":"APP",
+        "status":1
+    },
+    {
+        "name":"Website bán quần áo",
+        "link":"gs://newapp-a6378.appspot.com/Web-project/Stationery.zip",
+        "type":"APP",
+        "status":1
+    },
     {
         "name":"Ứng dụng quản lý bán hàng",
         "link":"gs://newapp-a6378.appspot.com/BusinessApp-TamDucCuong/BusinessApp - Setup.msi",
