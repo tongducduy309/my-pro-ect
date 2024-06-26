@@ -798,15 +798,15 @@ document.addEventListener("keydown", e => {
 document.addEventListener("contextmenu", e => {
   //e.preventDefault();
 });
-window.addEventListener("load",function(){
-  try {
-    !function t(n) {
-      1 === ("" + n / n).length && 0 !== n || function() {}.constructor("debugger")(), t(++n)
-    }(0)
-  } catch (n) {
-    setTimeout(t, 100)
-  }
-});
+// window.addEventListener("load",function(){
+//   try {
+//     !function t(n) {
+//       1 === ("" + n / n).length && 0 !== n || function() {}.constructor("debugger")(), t(++n)
+//     }(0)
+//   } catch (n) {
+//     setTimeout(t, 100)
+//   }
+// });
 
 
 //Bắt sự kiện click
