@@ -9,6 +9,8 @@ function changeColor_2(color){
   document.getElementById("color_2").style.backgroundColor=color
   document.getElementById("color_2").setAttribute("default",color)
 }
+
+let used_color_index=0
 $(document).ready(async () => {
   
   let list_tkb=[]
@@ -124,9 +126,11 @@ $(document).ready(async () => {
       'room':'',
       'teacherName':'',
       'id':'',
-      "color_1":"#ffffff",
-      "color_2":"#ffffff"
+      "color_1":colorCourseDefault_1[used_color_index],
+      "color_2":colorCourseDefault_2[used_color_index]
     },has=false) {
+      used_color_index++;
+      if (used_color_index==colorCourseDefault_1.length)used_color_index=0
       const bg = document.createElement("div");
       bg.id='bg'
       const dialog = document.createElement("div");
@@ -197,7 +201,7 @@ $(document).ready(async () => {
       button.innerHTML='Xác nhận'
       button.addEventListener("click", () => {
         document.body.removeChild(bg);
-        console.log(color_1.getAttribute("default"),color_2.getAttribute("default"));
+        //console.log(color_1.getAttribute("default"),color_2.getAttribute("default"));
         if (!has)
           addCourse({
             "name":name.value,

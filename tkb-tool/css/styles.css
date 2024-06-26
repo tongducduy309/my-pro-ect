@@ -391,9 +391,10 @@ body{
   background-color: #fff;
   box-shadow: 2px 3px 25px 0px rgba(31,38,67,0.5);
   position: absolute;
-  z-index: 10;
+  z-index: 10000;
   width: 100px;
   padding: 10px 0px;
+  
 }
 #contextmenu li{
   display: flex;

@@ -1,0 +1,200 @@
+* 
+{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+}
+:root{
+    --size-cell: 50px;
+    --c-btnNumber:#5fb6f0;
+}
+
+.levels{
+    box-shadow: 0px 3px 25px 0px rgba(31,38,67,0.1);
+    border-radius: 10px;
+    width: 15%;
+    margin-left: 20px;
+    margin-top: 20px;
+    display: flex;
+    flex-flow: column;
+    
+}
+
+.levels .header-level{
+    background-color: #0d95f0;
+    border-radius: 10px 10px 0 0;
+    text-align: center;
+    padding: 10px 20px;
+    font-weight: 900;
+}
+
+.levels .main-level{
+    padding: 0 20px;
+}
+
+.levels .level{
+    margin: 10px 0;
+    padding: 10px 20px;
+    font-weight: 900;
+    background-color: #0d95f0;
+    color: #fff;
+    user-select: none;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.levels .selected-level{
+    background-color: #065488;
+}
+#main{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+#board td{
+    position: relative;
+    display: inline-block;
+    width: var(--size-cell) !important;
+    aspect-ratio: 1 / 1 ;
+    border: 1px solid #9696968e;
+    margin: 0;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
+#board td:hover{
+    background-color: #96969648 !important;
+}
+
+#board .write{
+    color: #0d95f0;
+}
+
+#board tr{
+    display: flex;
+}
+
+.groupBtnNumber{
+    display: flex;
+    margin-top: 40px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+}
+
+.groupBtnNumber>div{
+    font-weight: 900;
+    width: var(--size-cell) !important;
+    aspect-ratio: 1 / 1 ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 2px;
+    border-radius: 8px;
+    background-color: var(--c-btnNumber);
+    color: #fff;
+    user-select: none;
+    visibility: visible;
+
+    
+}
+
+.groupBtnNumber>div:hover{
+    background-color: #5fb6f08f;
+}
+
+#board td .note{
+    position: absolute;
+    color: rgb(161, 161, 161);
+    font-size: 0.9rem;
+}
+
+.note_1{
+    top:0%;
+    left: 0%;
+    
+}
+.note_2{
+    top:0%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.note_3{
+    top:0%;
+    left: 100%;
+    transform: translateX(-100%);
+}
+.note_4{
+    top:50%;
+    left: 0%;
+    transform: translateY(-50%);
+}
+.note_5{
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.note_6{
+    top:50%;
+    left: 100%;
+    transform: translate(-100%,-50%);
+}
+
+.note_7{
+    top:100%;
+    left: 0%;
+    transform: translateY(-100%);
+}
+.note_8{
+    top:100%;
+    left: 50%;
+    transform: translate(-50%,-100%);
+}
+.note_9{
+    top:100%;
+    left: 100%;
+    transform: translate(-100%,-100%);
+}
+
+.toggle{
+    position: relative;
+    height: 12px;
+    width: 30px;
+    cursor: pointer;
+    border-radius: 25px;
+    background-color: #e70808;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  .toggle::before{
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    height: 15px;
+    width: 15px;
+    border-radius: 100%;
+    background-color: #4bc0c0;
+    border: 5px solid #fff;
+    transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+  }
+  .toggle.active::before{
+    left: 100%;
+    background-color: #fff;
+    border-color: #4bc0c0;
+  }
+
+.btnExport{
+    background-color: #0d95f0;
+    padding: 20px 10px;
+    text-align: center;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 8px;
+}
