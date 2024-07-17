@@ -2,6 +2,13 @@
 {
     
     margin: 0;
+    
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none; 
+    user-select: none;
+    pointer-events: none;
+    touch-action: manipulation;
 }
 
 body{
@@ -46,12 +53,6 @@ table{
     font-family: 'DGI';
     font-weight: 900;
     font-size: 200px;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none; 
-    user-select: none;
-    pointer-events: none;
-    touch-action: manipulation;
 }
 
 .record{
@@ -60,12 +61,6 @@ table{
     font-size: 50px;
     user-select: none;
     color: #7c7c7c;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none; 
-    user-select: none;
-    pointer-events: none;
-    touch-action: manipulation;
 }
 
 /* Màn hình Mobile */
