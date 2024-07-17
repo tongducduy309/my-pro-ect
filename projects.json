@@ -18,6 +18,12 @@
         "status":1
     },
     {
+        "name":"Đếm thời gian",
+        "link":"./rubik-time/rubik-time.html",
+        "type":"TOOLS",
+        "status":1
+    },
+    {
         "name":"Kho phim",
         "link":"./cinema.html",
         "type":"TOOLS",

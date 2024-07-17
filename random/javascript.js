@@ -90,8 +90,6 @@ function draw(users){
 draw(["Yes","No","Yes","No","Yes","No"])
 
 
-const audio = new Audio("./random/sound.mp3");
-
 let running = false,j=0;
 
 

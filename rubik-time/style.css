@@ -1,0 +1,66 @@
+* 
+{
+    
+    margin: 0;
+}
+
+body{
+    overflow: hidden;
+    scroll-behavior: smooth;
+}
+
+table{
+    border-spacing: 0;
+    border-collapse: collapse;
+    
+}
+
+@font-face {
+    font-family: DGI;
+    src: url('../vendor/fonts/DS-DIGII.TTF');
+}
+
+::-webkit-scrollbar {
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #e5e5e5;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #242424;
+}
+
+.main{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.time{
+    font-family: 'DGI';
+    font-weight: 900;
+    font-size: 200px;
+    user-select: none;
+}
+
+.record{
+    font-family: 'DGI';
+    font-weight: 600;
+    font-size: 50px;
+    user-select: none;
+    color: #7c7c7c;
+}
+
+/* Màn hình Mobile */
+@media screen and (max-width:767px) {
+    .time{
+        font-size: 100px;
+    }
+}
+
