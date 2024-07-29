@@ -46,5 +46,11 @@
         "link":"gs://newapp-a6378.appspot.com/BusinessApp-TamDucCuong/BusinessApp - Setup.msi",
         "type":"APP",
         "status":1
+    },
+    {
+        "name":"Ứng dụng ghi màn hình",
+        "link":"gs://newapp-a6378.appspot.com/Application/Record.msi",
+        "type":"APP",
+        "status":1
     }
 ]
