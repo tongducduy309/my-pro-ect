@@ -129,8 +129,29 @@ var altNames = {
 };
 const show_note = document.querySelector(".note")
 notes.forEach((n)=>{
-    piano[n]= new Audio(`./piano/notes/${n}.mp3`)
+    piano[n]= new Audio(`./notes/${n}.mp3`)
     piano[n].load()
+
+    // piano[n].addEventListener("playing",()=>{
+    //     if (keyboards_key[n])
+    //     {
+    //         keyboards_key[n].classList.add("active")
+    //     }
+    // })
+
+    // piano[n].addEventListener("ended",()=>{
+    //     if (keyboards_key[n])
+    //     {
+    //         keyboards_key[n].classList.remove("active")
+    //     }
+    // })
+
+    // piano[n].addEventListener("loadstart",()=>{
+    //     if (keyboards_key[n])
+    //     {
+    //         keyboards_key[n].classList.remove("active")
+    //     }
+    // })
 })
 
 const keys = {
@@ -143,9 +164,85 @@ const keys = {
     u:'B1',//SI
 }
 
+function PlayNote(note){
+    piano[note].load()
+    piano[note].play()
+    show_note.innerHTML = note
+}
+
+const keyboards = document.querySelectorAll(".keyboards li")
+let keyboards_key = {
+
+}
+
+keyboards.forEach((keyboard)=>{
+    const note = keyboard.getAttribute("note")
+    //keyboard.focus()
+    
+    keyboards_key[note]={
+        key:keyboard,
+        pressed:false
+    }
+    const div = document.createElement('div')
+    div.className = 'nameNote'
+    if (keyboard.className.indexOf('white')>-1)
+        div.classList.add('nameNoteWhite')
+    else div.classList.add('nameNoteBlack')
+    div.textContent = note
+    keyboard.append(div)
+
+    keyboard.addEventListener("click",()=>{
+        PlayNote(note)
+        console.log(note);
+        
+    })
+
+    keyboard.addEventListener("mousedown",()=>{
+        if (!keyboards_key[note].pressed){
+            
+            if (keyboards_key[note].key)
+            {
+                keyboards_key[note].key.classList.add("active")
+            }
+            keyboards_key[note].pressed=true
+        }
+    })
+    
+    keyboard.addEventListener("mouseup",()=>{
+        if (keyboards_key[note].pressed){
+            if (keyboards_key[note].key)
+            {
+                keyboards_key[note].key.classList.remove("active")
+            }
+            keyboards_key[note].pressed=false
+        }
+    })
+
+    keyboard.addEventListener("mouseleave",()=>{
+        if (keyboards_key[note].pressed){
+            if (keyboards_key[note].key)
+            {
+                keyboards_key[note].key.classList.remove("active")
+            }
+            keyboards_key[note].pressed=false
+        }
+    })
+})
 
 document.addEventListener('keydown', (event) => {
-    piano[keys[event.key]].load()
-    piano[keys[event.key]].play()
-    show_note.innerHTML = keys[event.key]
-  });
+    if (!keyboards_key[keys[event.key]].pressed){
+        keyboards_key[keys[event.key]].key.click()
+        keyboards_key[keys[event.key]].key.classList.add("active")
+        keyboards_key[keys[event.key]].pressed=true
+    }
+    
+});
+
+document.addEventListener('keyup', (event) => {
+    keyboards_key[keys[event.key]].key.classList.remove("active")
+    keyboards_key[keys[event.key]].pressed=false
+    
+});
+
+
+
