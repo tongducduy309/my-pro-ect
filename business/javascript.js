@@ -36,7 +36,7 @@ async function setQrcode(){
     const collection = urlParams.get('collection')
     //console.log(qrcode);
     if (qrcode){
-        await fs.collection(collection).update(createID(),{qrcode:qrcode})
+        await fs.collection(collection).add({qrcode:qrcode},createID())
         window.location.href = "about:blank";
     }
 }
