@@ -10,13 +10,33 @@ const fs = new Firestore({
     measurementId: "G-CCDEXW4RG9"
 });
 
+function formatEncode(n,a){
+    let code=['A','B','C','D','E','F','G','H','I','J'];
+    s=n+"";
+    while (s.length<a) s='0'+s;
+    let x='';
+    for (let i=0;i<a;i++) x+=code[parseInt(s[i])];
+    
+    
+    return x;
+}
+function createID(){
+    let date = new Date();
+    let d=[date.getDate(),date.getMonth(),(date.getFullYear()+"").slice(2,4),date.getHours(),date.getMinutes(),date.getSeconds(),date.getMilliseconds()];
+    let n=[2,2,2,2,2,2,4];
+    let id='#';
+    for (let i=0;i<d.length;i++) id+=formatEncode(d[i],n[i]);
+    return id;
+}
+
 async function setQrcode(){
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const qrcode = urlParams.get('qrcode')
-    console.log(qrcode);
+    const collection = urlParams.get('collection')
+    //console.log(qrcode);
     if (qrcode){
-        await fs.collection("bs-tamduccuong").update("qrcode",{code:qrcode})
+        await fs.collection(collection).update(createID(),{qrcode:qrcode})
         window.location.href = "about:blank";
     }
 }

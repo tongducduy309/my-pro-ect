@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quét Mã</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f8f8f8;
+        display: flex;
+        align-items: center; /* Vertically center the content */
+        justify-content: center; /* Horizontally center the content */
+        min-height: 100vh; /* Ensure the container covers the full viewport height */
+        height: 100vh;
+        flex-direction: column;
+        overflow: hidden;
+      }
+      #container {
+        width: 100%;
+        height: 100%;
+        background-color: white;
+        border-radius: 10px;
+        text-align: center;
+        display: flex;
+        align-items: center; /* Vertically center the content */
+        justify-content: center; /* Horizontally center the content */
+        flex-direction: column;
+        gap: 1em;
+      }
+
+      #reader{
+        width: 100%;
+        border: none !important;
+      }
+
+      button,
+      .btn {
+        margin-top: 10px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin: 1em;
+        text-decoration: none;
+      }
+      #refreshButton {
+        display: none;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+    </style>
+  </head>
+  <body>
+
+    <div id="container">
+      <div id="reader"></div>
+      <h2 id="scanResultText"></h2>
+      <a id="scanResultUrl" target="_blank"></a>
+      <!-- <button id="refreshButton" onclick="refreshScanner()">New Scan</button> -->
+    </div>
+
+    <script src="./html5-qrcode.min.js"></script>
+    <script>
+      // Function to handle successful QR code scans
+      function onScanSuccess(decodedText, decodedResult) {
+        console.log(`Scan result: ${decodedText}`, decodedResult);
+
+        if (isValidUrl(decodedText)) {
+          var scanResultLink = document.getElementById("scanResultUrl");
+          scanResultLink.href = decodedText;
+          scanResultLink.innerText = decodedText;
+        } else {
+          document.getElementById("scanResultText").textContent = `Scan result: ${decodedText}`;
+        }
+        //html5QrcodeScanner.clear();
+
+        //document.getElementById("refreshButton").style.display = "block";
+      }
+
+      // Function to refresh the QR code scanner
+      function refreshScanner() {
+        location.reload(true);
+      }
+
+      // Function to validate URLs
+      function isValidUrl(url) {
+        var pattern = new RegExp(
+          "^(https?:\\/\\/)?" +
+            "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|" +
+            "((\\d{1,3}\\.){3}\\d{1,3}))" +
+            "(\\:\\d+)?(\\/[-a-z\\d%@_.~+&:]*)*" +
+            "(\\?[;&a-z\\d%@_.,~+&:=-]*)?" +
+            "(\\#[-a-z\\d_]*)?$",
+          "i"
+        );
+        return !!pattern.test(url);
+      }
+
+      // Initialize the QR code scanner
+      var html5QrcodeScanner = new Html5QrcodeScanner("reader", { fps: 10, qrbox: 250 });
+
+      // Render the QR code scanner with the defined success callback
+      html5QrcodeScanner.render(onScanSuccess);
+    </script>
+  </body>
+</html>
