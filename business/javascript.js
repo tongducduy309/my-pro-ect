@@ -12,7 +12,7 @@ const fs = new Firestore({
 
 function formatEncode(n,a){
     let code=['A','B','C','D','E','F','G','H','I','J'];
-    s=n+"";
+    let s=n+"";
     while (s.length<a) s='0'+s;
     let x='';
     for (let i=0;i<a;i++) x+=code[parseInt(s[i])];
@@ -29,15 +29,35 @@ function createID(){
     return id;
 }
 
+
+
+async function getIPAddress() {
+    try {
+      const response = await fetch('https://api.ipify.org?format=json');
+      const data = await response.json();
+      return data.ip;
+    } catch (error) {
+      console.error('Error fetching IP address:', error);
+      return 'Unknown IP';
+    }
+  }
+
 async function setQrcode(){
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const qrcode = urlParams.get('qrcode')
-    const collection = urlParams.get('collection')
+    const doc = urlParams.get('doc')
     //console.log(qrcode);
     if (qrcode){
-        await fs.collection(collection).add({qrcode:qrcode},createID())
-        window.location.href = "about:blank";
+        let value = {}
+        let ip = await getIPAddress();
+        value[createID()]={
+            qrcode:qrcode,
+            ip:ip
+        }
+        console.log(value);
+        await fs.collection("business").update(doc,value)
+        //window.location.href = "about:blank";
     }
 }
 
