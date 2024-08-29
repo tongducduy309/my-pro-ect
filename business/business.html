@@ -6,8 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>QRCODE</title>
     <link rel="icon" type="image/x-icon" href="./introduce_myself/favicon.ico">
+    <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+    <div id="alert_container"></div>
+    <div id="container">
+        <div id="reader"></div>
+        <h2 id="scanResultText"></h2>
+        <a id="scanResultUrl" target="_blank"></a>
+        <!-- <button id="refreshButton" onclick="refreshScanner()">New Scan</button> -->
+      </div>
+  
+      <script src="./html5-qrcode.min.js"></script>
       <script type="module" src="./javascript.js"></script>
 </body>
 </html>
